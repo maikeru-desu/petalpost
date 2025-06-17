@@ -15,11 +15,18 @@ final class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Create test user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+        
+        // Seed the database with our flower shop data
+        // The order is important because of relationships
+        $this->call([
+            ProductTypeSeeder::class,
+            TagSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
