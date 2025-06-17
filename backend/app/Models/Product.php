@@ -20,6 +20,7 @@ class Product extends Model
      */
     protected $fillable = [
         'type_id',
+        'image',
         'name',
         'description',
         'price',
