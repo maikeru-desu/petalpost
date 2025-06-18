@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { productService } from '../api/productService';
 
 const HomePage = () => {
+  const { data: products } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => productService.getProducts(),
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -48,74 +55,31 @@ const HomePage = () => {
             Featured Arrangements
           </h2>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
-            {/* Product 1 */}
-            <div className="group relative transform transition-all duration-300 hover:scale-105">
-              <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-85 lg:h-80 lg:aspect-none shadow-md">
-                <div className="w-full h-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: 'rgb(var(--color-redwood))' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
+            {products && products.data.map(product => (
+              <div className="group relative transform transition-all duration-300 hover:scale-105">
+                <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-85 lg:h-80 lg:aspect-none shadow-md">
+                  <div className="w-full h-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: 'rgb(var(--color-redwood))' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <div>
+                    <h3 className="text-sm text-caput-mortuum font-medium">
+                      <a href="#">
+                        <span aria-hidden="true" className="absolute inset-0"></span>
+                        {product.name}
+                      </a>
+                    </h3>
+                    <p className="mt-1 text-sm text-wine">{product.mini_description}</p>
+                  </div>
+                  <p className="text-sm font-medium text-caput-mortuum">${product.price}</p>
                 </div>
               </div>
-              <div className="mt-4 flex justify-between">
-                <div>
-                  <h3 className="text-sm text-caput-mortuum font-medium">
-                    <a href="#">
-                      <span aria-hidden="true" className="absolute inset-0"></span>
-                      Spring Delight
-                    </a>
-                  </h3>
-                  <p className="mt-1 text-sm text-wine">Fresh seasonal blooms</p>
-                </div>
-                <p className="text-sm font-medium text-caput-mortuum">$89.99</p>
-              </div>
-            </div>
-
-            {/* Product 2 */}
-            <div className="group relative transform transition-all duration-300 hover:scale-105">
-              <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-85 lg:h-80 lg:aspect-none shadow-md">
-                <div className="w-full h-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: 'rgb(var(--color-wine))' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                </div>
-              </div>
-              <div className="mt-4 flex justify-between">
-                <div>
-                  <h3 className="text-sm text-caput-mortuum font-medium">
-                    <a href="#">
-                      <span aria-hidden="true" className="absolute inset-0"></span>
-                      Romantic Rose Bouquet
-                    </a>
-                  </h3>
-                  <p className="mt-1 text-sm text-wine">Premium long-stem roses</p>
-                </div>
-                <p className="text-sm font-medium text-caput-mortuum">$129.99</p>
-              </div>
-            </div>
-
-            {/* Product 3 */}
-            <div className="group relative transform transition-all duration-300 hover:scale-105">
-              <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-85 lg:h-80 lg:aspect-none shadow-md">
-                <div className="w-full h-full flex items-center justify-center font-bold" style={{ backgroundColor: 'rgb(var(--color-ecru))', color: 'rgb(var(--color-caput-mortuum))' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                </div>
-              </div>
-              <div className="mt-4 flex justify-between">
-                <div>
-                  <h3 className="text-sm text-caput-mortuum font-medium">
-                    <a href="#">
-                      <span aria-hidden="true" className="absolute inset-0"></span>
-                      Succulent Garden
-                    </a>
-                  </h3>
-                  <p className="mt-1 text-sm text-wine">Long-lasting arrangement</p>
-                </div>
-                <p className="text-sm font-medium text-caput-mortuum">$69.99</p>
-              </div>
-            </div>
+            ))}
+            
+            
           </div>
         </div>
       </div>
