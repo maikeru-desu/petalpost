@@ -35,6 +35,7 @@ final class ProductSeeder extends Seeder
             [
                 'type_id' => $bouquets->id,
                 'name' => 'Rose Elegance',
+                'mini_description' => 'A beautiful arrangement of red roses',
                 'description' => 'A beautiful arrangement of red roses, perfect for expressing love.',
                 'price' => 49.99,
                 'tags' => [$valentinesTag, $forHerTag, $flowerTag],
@@ -42,6 +43,7 @@ final class ProductSeeder extends Seeder
             [
                 'type_id' => $bouquets->id,
                 'name' => 'Spring Bliss',
+                'mini_description' => 'Colorful spring flowers',
                 'description' => 'Colorful spring flowers to brighten any room or occasion.',
                 'price' => 39.99,
                 'tags' => [$birthdayTag, $flowerTag],
@@ -49,6 +51,7 @@ final class ProductSeeder extends Seeder
             [
                 'type_id' => $pottedPlants->id,
                 'name' => 'Peaceful Lily',
+                'mini_description' => 'A peace lily plant',
                 'description' => 'A peace lily plant that brings tranquility to any space.',
                 'price' => 29.99,
                 'tags' => [$forHerTag, $forHimTag],
@@ -56,6 +59,7 @@ final class ProductSeeder extends Seeder
             [
                 'type_id' => $giftBaskets->id,
                 'name' => 'Flower & Chocolate',
+                'mini_description' => 'beautiful flowers and delicious chocolates.',
                 'description' => 'The perfect combination of beautiful flowers and delicious chocolates.',
                 'price' => 69.99,
                 'tags' => [$valentinesTag, $birthdayTag],
@@ -63,6 +67,7 @@ final class ProductSeeder extends Seeder
             [
                 'type_id' => $accessories->id,
                 'name' => 'Flower Plush Toy',
+                'mini_description' => 'A cute flower plush toy',
                 'description' => 'A cute plush toy in the shape of a flower.',
                 'price' => 19.99,
                 'tags' => [$toysTag, $forHerTag, $birthdayTag],

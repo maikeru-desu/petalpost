@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained('product_types');
             $table->string('image')->nullable();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('mini_description');
+            $table->text('description')->nullasble();
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });

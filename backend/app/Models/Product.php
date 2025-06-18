@@ -22,6 +22,7 @@ final class Product extends Model
         'type_id',
         'image',
         'name',
+        'mini_description',
         'description',
         'price',
     ];
