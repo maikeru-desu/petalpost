@@ -7,12 +7,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Product;
 
-class ProductType extends Model
+final class ProductType extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,7 +20,7 @@ class ProductType extends Model
     protected $fillable = [
         'name',
     ];
-    
+
     /**
      * Get the products for the product type.
      */

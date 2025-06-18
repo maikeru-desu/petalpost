@@ -21,7 +21,7 @@ final class DatabaseSeeder extends Seeder
             'last_name' => 'User',
             'email' => 'test@example.com',
         ]);
-        
+
         // Seed the database with our flower shop data
         // The order is important because of relationships
         $this->call([

@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Order extends Model
+final class Order extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,7 +37,7 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'order_products')
-                    ->withPivot('price')
-                    ->withTimestamps();
+            ->withPivot('price')
+            ->withTimestamps();
     }
 }
