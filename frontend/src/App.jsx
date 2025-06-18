@@ -1,9 +1,11 @@
 import './App.css'
-import WelcomePage from './components/WelcomePage'
+import { RouterProvider } from 'react-router-dom'
+
+import { router } from "./constants/router/router";
 
 function App() {
   return (
-    <WelcomePage />
+    <RouterProvider router={router} />
   )
 }
 
