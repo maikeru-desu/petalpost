@@ -41,12 +41,12 @@ final class UpdateProduct
             }
 
             if (array_key_exists('image', $data)) {
-                if ($product->image && Storage::disk('public')->exists('products/' . $product->image)) {
-                    Storage::disk('public')->delete('products/' . $product->image);
+                if ($product->image && Storage::disk('public')->exists('products/'.$product->image)) {
+                    Storage::disk('public')->delete('products/'.$product->image);
                 }
-                
+
                 if ($data['image'] instanceof UploadedFile) {
-                    $fileName = time() . '_' . $data['image']->getClientOriginalName();
+                    $fileName = time().'_'.$data['image']->getClientOriginalName();
                     $data['image']->storeAs('products', $fileName, 'public');
                     $product->image = $fileName;
                 } elseif (is_string($data['image'])) {
