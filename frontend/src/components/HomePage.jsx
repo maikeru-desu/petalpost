@@ -56,13 +56,19 @@ const HomePage = () => {
           </h2>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:gap-x-8">
             {products && products.data.map(product => (
-              <div className="group relative transform transition-all duration-300 hover:scale-105">
+              <div className="group relative transform transition-all duration-300 hover:scale-105" key={product.id}>
                 <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-85 lg:h-80 lg:aspect-none shadow-md">
-                  <div className="w-full h-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: 'rgb(var(--color-redwood))' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-24 w-24 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                  </div>
+                  <img
+                    src={ product.image 
+                      ? `${import.meta.env.VITE_API_URL}/storage/products/${product.image}` 
+                      : `${import.meta.env.VITE_API_URL}/products/default-image.jpg` }
+                    alt={product.name}
+                    className="w-full h-full object-center object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/products/default-image.jpg";
+                    }}
+                  />
                 </div>
                 <div className="mt-4 flex justify-between">
                   <div>
