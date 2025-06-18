@@ -133,6 +133,44 @@ npm run dev
 - `PUT /api/products/{id}` - Update product (admin)
 - `DELETE /api/products/{id}` - Delete product (admin)
 
+## Database Schema
+
+PetalPost uses a relational database design to manage products, users, orders, and related entities.
+
+### Database Diagram
+
+View the complete database schema diagram here: [PetalPost Database Schema](https://dbdiagram.io/d/petalpost-684f7f603cc77757c8fa6d39)
+
+### Core Tables
+
+- **users** - Customer accounts with authentication information
+  - Contains: id, first_name, last_name, email, password, etc.
+  
+- **products** - Product catalog with details
+  - Contains: id, type_id, name, mini_description, description, price, image
+  
+- **product_types** - Categories of products
+  - Contains: id, name, description
+  
+- **tags** - Product tags for filtering and organization
+  - Contains: id, name
+  
+- **product_tags** - Many-to-many relationship between products and tags
+  - Contains: product_id, tag_id
+  
+- **orders** - Customer orders
+  - Contains: id, user_id, status, total, etc.
+  
+- **order_products** - Line items in each order
+  - Contains: order_id, product_id, price, quantity
+
+### Relationships
+
+- A **User** can place many **Orders**
+- A **Product** belongs to one **ProductType**
+- A **Product** can have many **Tags** (through product_tags)
+- An **Order** contains many **Products** (through order_products)
+
 ## Screenshots
 
 ![Home Page](https://via.placeholder.com/400x300?text=Home+Page)
