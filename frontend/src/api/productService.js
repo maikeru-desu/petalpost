@@ -6,7 +6,7 @@ export const productService = {
         return response.data;
     },
 
-    async getProductById(id) {
+    async getProduct(id) {
         const response = await api.get(`/api/products/${id}`);
         return response.data;
     },
