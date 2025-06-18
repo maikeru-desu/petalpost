@@ -6,7 +6,9 @@ namespace App\Actions\Products;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 final class UpdateProduct
 {
@@ -28,14 +30,30 @@ final class UpdateProduct
             if (isset($data['name'])) {
                 $product->name = $data['name'];
             }
+            if (isset($data['mini_description'])) {
+                $product->mini_description = $data['mini_description'];
+            }
             if (isset($data['description'])) {
                 $product->description = $data['description'];
             }
             if (isset($data['price'])) {
                 $product->price = $data['price'];
             }
+
             if (array_key_exists('image', $data)) {
-                $product->image = $data['image'];
+                if ($product->image && Storage::disk('public')->exists('products/' . $product->image)) {
+                    Storage::disk('public')->delete('products/' . $product->image);
+                }
+                
+                if ($data['image'] instanceof UploadedFile) {
+                    $fileName = time() . '_' . $data['image']->getClientOriginalName();
+                    $data['image']->storeAs('products', $fileName, 'public');
+                    $product->image = $fileName;
+                } elseif (is_string($data['image'])) {
+                    $product->image = $data['image'];
+                } else {
+                    $product->image = null;
+                }
             }
 
             $product->save();

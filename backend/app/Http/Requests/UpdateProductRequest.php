@@ -27,8 +27,9 @@ final class UpdateProductRequest extends FormRequest
             'type_id' => ['sometimes', 'exists:product_types,id'],
             'name' => ['sometimes', 'string', 'max:255'],
             'description' => ['sometimes', 'string'],
+            'mini_description' => ['sometimes', 'string'],
             'price' => ['sometimes', 'numeric', 'min:0'],
-            'image' => ['sometimes', 'nullable', 'string'],
+            'image' => ['sometimes', 'nullable', 'image'],
             'tags' => ['sometimes', 'array'],
             'tags.*' => ['exists:tags,id'],
         ];

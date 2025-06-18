@@ -27,8 +27,9 @@ final class CreateProductRequest extends FormRequest
             'type_id' => ['required', 'exists:product_types,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            'mini_description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
-            'image' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
             'tags' => ['sometimes', 'array'],
             'tags.*' => ['exists:tags,id'],
         ];
