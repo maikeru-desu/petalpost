@@ -12,32 +12,86 @@ const HomePage = () => {
   return (
     <>
       {/* Hero Section */}
-      <div className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(to right, rgba(var(--color-ecru)/0.3), rgba(var(--color-flax)/0.3))' }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl" style={{ color: 'rgb(var(--color-caput-mortuum))' }}>
-              <span className="block">Welcome to</span>
-              <span className="block mt-2" style={{ color: 'rgb(var(--color-wine))' }}>PetalPost</span>
-            </h1>
-            <p className="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl" style={{ color: 'rgb(var(--color-caput-mortuum))' }}>
-              Blooming beauty delivered to your doorstep. Discover our handcrafted floral arrangements.
-            </p>
-            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <Link to="/shop" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white md:py-4 md:text-lg md:px-10 transition-colors duration-300" style={{ backgroundColor: 'rgb(var(--color-redwood))', ':hover': { backgroundColor: 'rgb(var(--color-wine))' } }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                  </svg>
-                  Shop Now
-                </Link>
+      <div className="relative overflow-hidden">
+        {/* Decorative floral elements */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 opacity-20">
+          <svg width="400" height="400" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0C55 15 85 30 85 50C85 70 55 85 50 100C45 85 15 70 15 50C15 30 45 15 50 0Z" fill="rgb(var(--color-redwood))" />
+          </svg>
+        </div>
+        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 opacity-10">
+          <svg width="300" height="300" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 0C60 20 80 35 100 50C80 65 60 80 50 100C40 80 20 65 0 50C20 35 40 20 50 0Z" fill="rgb(var(--color-wine))" />
+          </svg>
+        </div>
+        
+        <div className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(135deg, rgba(var(--color-ecru)/0.4), rgba(var(--color-flax)/0.3), rgba(var(--color-ecru)/0.2))' }}>
+          <div className="max-w-7xl mx-auto">
+            <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+              <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left lg:flex lg:flex-col lg:justify-center">
+                <div>
+                  <h1 className="mt-4 text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
+                    <span className="block" style={{ color: 'rgb(var(--color-caput-mortuum))' }}>Thoughtful</span>
+                    <span className="block mt-1" style={{ color: 'rgb(var(--color-wine))' }}>Floral Elegance</span>
+                  </h1>
+                  <p className="mt-3 text-base sm:mt-5 sm:text-xl lg:text-lg xl:text-xl" style={{ color: 'rgb(var(--color-caput-mortuum))' }}>
+                    Handcrafted bouquets that speak louder than words. From special occasions to everyday moments, our fresh seasonal blooms bring joy to any space.
+                  </p>
+                  
+                  {/* Quote testimonial */}
+                  <div className="mt-8 p-4 bg-white/60 backdrop-blur-sm rounded-lg shadow-sm border border-ecru/20 italic">
+                    <p className="text-sm text-wine">"The flowers were absolutely stunning and lasted for weeks! My favorite online florist."</p>
+                    <p className="text-xs mt-2 text-right font-medium text-caput-mortuum">— Sarah T.</p>
+                  </div>
+                  
+                  <div className="mt-8 sm:flex justify-start space-x-4">
+                    <div className="rounded-md shadow">
+                      <Link to="/shop" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white md:py-4 md:text-lg transition-all duration-300 hover:shadow-lg" style={{ backgroundColor: 'rgb(var(--color-redwood))' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Shop Now
+                      </Link>
+                    </div>
+                    <div className="mt-3 sm:mt-0">
+                      <Link to="/about" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md md:py-4 md:text-lg transition-all duration-300" style={{ color: 'rgb(var(--color-caput-mortuum))', backgroundColor: 'rgba(var(--color-ecru)/0.2)' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Learn More
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <Link to="/about" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-caput-mortuum bg-white hover:bg-ecru/30 md:py-4 md:text-lg md:px-10 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Learn More
-                </Link>
+              
+              <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+                <div className="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
+                  <div className="relative block w-full bg-white rounded-lg overflow-hidden">
+                    <img className="w-full" src="/hero-bouquet.jpg" alt="Beautiful floral arrangement" 
+                       onError={(e) => {
+                         e.target.onerror = null; 
+                         e.target.src = 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                       }}/>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-white/70 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+                        <span className="text-wine font-medium">Spring Collection</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Features banners */}
+                <div className="absolute bottom-0 -mb-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                  <div className="bg-white py-2 px-4 rounded-full shadow-md text-xs sm:text-sm flex items-center">
+                    <span className="h-3 w-3 rounded-full bg-green-500 mr-2"></span>
+                    <span className="text-caput-mortuum font-medium">Same Day Delivery</span>
+                  </div>
+                  <div className="bg-white py-2 px-4 rounded-full shadow-md text-xs sm:text-sm flex items-center">
+                    <span className="h-3 w-3 rounded-full bg-caput-mortuum mr-2"></span>
+                    <span className="text-caput-mortuum font-medium">Fresh Guarantee</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
