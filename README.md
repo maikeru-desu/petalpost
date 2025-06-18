@@ -153,6 +153,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - [@yourusername](https://twitter.com/yourusername)
+Michael Joseph Gelvez - [@kiminotenmei](https://x.com/kiminotenmei)
 
-Project Link: [https://github.com/yourusername/petalpost](https://github.com/yourusername/petalpost)
+Project Link: [https://github.com/maikeru-desu/petalpost](https://github.com/maikeru-desu/petalpost)
