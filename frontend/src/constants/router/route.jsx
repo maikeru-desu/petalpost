@@ -4,6 +4,7 @@ import Layout from "../../components/layout/Layout";
 import AuthGuard from "../../components/guards/AuthGuard";
 import ProfilePage from "../../components/ProfilePage";
 import ProductDetail from "../../components/ProductDetail";
+import ShopPage from "../../components/ShopPage";
 
 // Public routes accessible to all users
 export const PUBLIC_ROUTES = [
@@ -28,6 +29,14 @@ export const PROTECTED_ROUTES = [
     element: (
       <Layout>
         <ProductDetail />
+      </Layout>
+    ),
+  },
+  {
+    path: "/shop",
+    element: (
+      <Layout>
+        <ShopPage />
       </Layout>
     ),
   },

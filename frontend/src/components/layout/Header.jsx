@@ -52,10 +52,10 @@ export default function Header() {
                         <img className="h-14 w-auto object-contain" src={logo} alt="PetalPost Logo" />
                     </div>
                     <div className="hidden md:ml-6 md:flex md:items-center md:space-x-8 h-full">
-                        <a href="#" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Home</a>
-                        <a href="#" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Shop</a>
-                        <a href="#" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Arrangements</a>
-                        <a href="#" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Contact</a>
+                        <Link to="/" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Home</Link>
+                        <Link to="/shop" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Shop</Link>
+                        <Link to="/arrangements" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Arrangements</Link>
+                        <Link to="/contact" className="text-white hover:opacity-80 flex items-center h-full px-3 py-2 border-b-2 border-transparent" style={{ ':hover': { color: 'rgb(var(--color-flax))', borderColor: 'rgb(var(--color-flax))' } }}>Contact</Link>
                     </div>
                     </div>
                     <div className="flex items-center">

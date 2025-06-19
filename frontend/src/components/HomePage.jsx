@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { productService } from '../api/productService';
+import { useProducts } from '../hooks/useProduct';
 
 const HomePage = () => {
-  const { data: products, isLoading } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => productService.getProducts(),
-  });
+  const { data: products, isLoading } = useProducts();
 
   // Array to render skeleton products while loading
   const skeletonProducts = Array(6).fill(null);
