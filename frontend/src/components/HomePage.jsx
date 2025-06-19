@@ -137,7 +137,7 @@ const HomePage = () => {
                       className="w-full h-full object-center object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "/products/default-image.jpg";
+                        e.target.src = `${import.meta.env.VITE_API_URL}/products/default-image.jpg`;
                       }}
                     />
                   </div>
