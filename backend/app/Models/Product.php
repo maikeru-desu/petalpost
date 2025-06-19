@@ -25,6 +25,8 @@ final class Product extends Model
         'mini_description',
         'description',
         'price',
+        'stripe_product_id',
+        'stripe_price_id',
     ];
 
     /**
