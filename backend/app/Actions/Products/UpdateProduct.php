@@ -45,15 +45,9 @@ final class UpdateProduct
                     Storage::disk('public')->delete('products/'.$product->image);
                 }
 
-                if ($data['image'] instanceof UploadedFile) {
-                    $fileName = time().'_'.$data['image']->getClientOriginalName();
-                    $data['image']->storeAs('products', $fileName, 'public');
-                    $product->image = $fileName;
-                } elseif (is_string($data['image'])) {
-                    $product->image = $data['image'];
-                } else {
-                    $product->image = null;
-                }
+                $fileName = time().'_'.$data['image']->getClientOriginalName();
+                $data['image']->storeAs('products', $fileName, 'public');
+                $product->image = $fileName;
             }
 
             $product->save();

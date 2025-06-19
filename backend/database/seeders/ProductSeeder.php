@@ -44,7 +44,7 @@ final class ProductSeeder extends Seeder
                 'description' => 'A beautiful arrangement of red roses, perfect for expressing love.',
                 'price' => 49.99,
                 'tags' => [$valentinesTag, $forHerTag, $flowerTag],
-                'image' => $this->storeImage('roseelegance.jpg'),
+                'image' => 'roseelegance.jpg',
             ],
             [
                 'type_id' => $bouquets->id,
@@ -53,7 +53,7 @@ final class ProductSeeder extends Seeder
                 'description' => 'Colorful spring flowers to brighten any room or occasion.',
                 'price' => 39.99,
                 'tags' => [$birthdayTag, $flowerTag],
-                'image' => $this->storeImage('springbliss.jpg'),
+                'image' => 'springbliss.jpg',
             ],
             [
                 'type_id' => $pottedPlants->id,
@@ -62,7 +62,7 @@ final class ProductSeeder extends Seeder
                 'description' => 'A peace lily plant that brings tranquility to any space.',
                 'price' => 29.99,
                 'tags' => [$forHerTag, $forHimTag],
-                'image' => $this->storeImage('peacelily.jpg'),
+                'image' => 'peacelily.jpg',
             ],
             [
                 'type_id' => $giftBaskets->id,
@@ -71,7 +71,7 @@ final class ProductSeeder extends Seeder
                 'description' => 'The perfect combination of beautiful flowers and delicious chocolates.',
                 'price' => 69.99,
                 'tags' => [$valentinesTag, $birthdayTag],
-                'image' => $this->storeImage('flowerchocolate.jpg'),
+                'image' => 'flowerchocolate.jpg',
             ],
             [
                 'type_id' => $accessories->id,
@@ -80,13 +80,14 @@ final class ProductSeeder extends Seeder
                 'description' => 'A cute plush toy in the shape of a flower.',
                 'price' => 19.99,
                 'tags' => [$toysTag, $forHerTag, $birthdayTag],
-                'image' => $this->storeImage('flowerplush.jpg'),
+                'image' => 'flowerplush.jpg',
             ],
         ];
 
         foreach ($products as $productData) {
             $tags = $productData['tags'];
             unset($productData['tags']);
+            $productData['image'] = $this->storeImage($productData['image']);
 
             $stripeProduct = $this->stripeService->createProductWithPrice($productData['name'], (int) $productData['price'] * 100);
             $productData['stripe_product_id'] = $stripeProduct['product_id'];
@@ -101,7 +102,7 @@ final class ProductSeeder extends Seeder
     {
         $file = File::get(public_path('products/'.$imageName));
         $fileName = time().'_'.$imageName;
-        Storage::put('products/'.$fileName, $file);
+        Storage::disk('public')->put('products/'.$fileName, $file);
 
         return $fileName;
     }
