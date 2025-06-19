@@ -8,6 +8,11 @@
     --color-ecru: 216 189 138;
     --color-flax: 216 215 143;
   }
+  
+  /* Make all interactive elements show pointer cursor by default */
+  button, a, [role="button"], input[type="submit"], input[type="button"], input[type="reset"], .btn, .cursor-pointer {
+    cursor: pointer;
+  }
 }
 
 /* Custom color classes using the Tailwind 4 approach */

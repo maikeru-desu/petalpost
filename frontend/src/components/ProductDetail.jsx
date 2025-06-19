@@ -98,17 +98,30 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className="mt-10 flex sm:flex-col1">
-              <button
-                type="button"
-                className="max-w-xs flex-1 bg-redwood border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redwood sm:w-full"
-              >
-                Add to Bag
-              </button>
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-1 gap-2">
+                {/* Checkout Now button */}
+                <button
+                  type="button"
+                  className="flex-1 bg-wine border border-transparent rounded-md py-3 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-wine transition-colors duration-200"
+                  onClick={() => window.location.href = '/checkout'}
+                >
+                  Checkout Now
+                </button>
+                
+                {/* Add to Bag button */}
+                <button
+                  type="button"
+                  className="flex-1 bg-redwood border border-transparent rounded-md py-3 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redwood transition-colors duration-200"
+                >
+                  Add to Bag
+                </button>
+              </div>
 
+              {/* Favorite button */}
               <button
                 type="button"
-                className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-wine hover:bg-flax hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ecru"
+                className="sm:ml-4 py-3 px-3 rounded-md flex items-center justify-center text-wine hover:bg-flax hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ecru transition-colors duration-200"
               >
                 <svg className="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
