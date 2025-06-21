@@ -54,4 +54,13 @@ final class Product extends Model
             ->withPivot('price')
             ->withTimestamps();
     }
+
+    /**
+     * The users who favorited this product.
+     */
+    public function favoritedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_favorite_products')
+            ->withTimestamps();
+    }
 }

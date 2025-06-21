@@ -5,6 +5,7 @@ import AuthGuard from "../../components/guards/AuthGuard";
 import ProfilePage from "../../components/ProfilePage";
 import ProductDetail from "../../components/ProductDetail";
 import ShopPage from "../../components/ShopPage";
+import FavoritesPage from "../../components/FavoritesPage";
 
 // Public routes accessible to all users
 export const PUBLIC_ROUTES = [
@@ -46,6 +47,16 @@ export const PROTECTED_ROUTES = [
       <AuthGuard>
         <Layout>
           <ProfilePage />
+        </Layout>
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/favorites",
+    element: (
+      <AuthGuard>
+        <Layout>
+          <FavoritesPage />
         </Layout>
       </AuthGuard>
     ),

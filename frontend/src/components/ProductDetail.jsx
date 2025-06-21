@@ -1,15 +1,51 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productService } from '../api/productService';
+import { favoriteService } from '../api/favoriteService';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [isFavorite, setIsFavorite] = useState(false);
   
   const { data: product, isLoading, error } = useQuery({
     queryKey: ['product', id],
     queryFn: () => productService.getProduct(id),
   });
+  
+  // Check if product is favorited
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (id) {
+        try {
+          const status = await favoriteService.checkFavoriteStatus(id);
+          setIsFavorite(status);
+        } catch (error) {
+          console.error('Error checking favorite status:', error);
+        }
+      }
+    };
+    
+    checkFavoriteStatus();
+  }, [id]);
+  
+  // Mutation for toggling favorite status
+  const toggleFavoriteMutation = useMutation({
+    mutationFn: (productId) => favoriteService.toggleFavorite(productId),
+    onSuccess: (data) => {
+      setIsFavorite(data.favorited);
+      queryClient.invalidateQueries(['favorites']);
+    },
+    onError: (error) => {
+      console.error('Error toggling favorite:', error);
+    }
+  });
+  
+  const handleToggleFavorite = () => {
+    toggleFavoriteMutation.mutate(id);
+  };
 
   if (isLoading) {
     return (
@@ -104,7 +140,7 @@ const ProductDetail = () => {
                 <button
                   type="button"
                   className="flex-1 bg-wine border border-transparent rounded-md py-3 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-wine transition-colors duration-200"
-                  onClick={() => window.location.href = '/checkout'}
+                  onClick={() => navigate('/checkout')}
                 >
                   Checkout Now
                 </button>
@@ -121,12 +157,15 @@ const ProductDetail = () => {
               {/* Favorite button */}
               <button
                 type="button"
-                className="sm:ml-4 py-3 px-3 rounded-md flex items-center justify-center text-wine hover:bg-flax hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ecru transition-colors duration-200"
+                onClick={handleToggleFavorite}
+                className={`sm:ml-4 py-3 px-3 rounded-md flex items-center justify-center ${isFavorite ? 'text-redwood' : 'text-wine'} hover:bg-flax hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ecru transition-colors duration-200`}
+                aria-pressed={isFavorite}
+                aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               >
-                <svg className="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <svg className="h-6 w-6 flex-shrink-0" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isFavorite ? 1 : 2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
-                <span className="sr-only">Add to favorites</span>
+                <span className="sr-only">{isFavorite ? 'Remove from favorites' : 'Add to favorites'}</span>
               </button>
             </div>
 
