@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productService } from '../api/productService';
 import { favoriteService } from '../api/favoriteService';
+import LoadingScreen from './common/LoadingScreen';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -48,11 +49,7 @@ const ProductDetail = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-redwood"></div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {
