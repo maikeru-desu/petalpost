@@ -16,7 +16,7 @@ final class FavoriteController extends Controller
     /**
      * Toggle favorite status of a product for the authenticated user.
      */
-    public function toggle(Request $request, string $productId): JsonResponse
+    public function toggle(Request $request, int $productId): JsonResponse
     {
         $userId = $request->user()->id;
         $result = (new ToggleFavoriteProduct())->execute($userId, $productId);
@@ -38,7 +38,7 @@ final class FavoriteController extends Controller
     /**
      * Check if a product is favorited by the authenticated user.
      */
-    public function check(Request $request, string $productId): JsonResponse
+    public function check(Request $request, int $productId): JsonResponse
     {
         $userId = $request->user()->id;
         $isFavorited = (new CheckProductFavoriteStatus())->execute($userId, $productId);

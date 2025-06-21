@@ -15,7 +15,7 @@ final class GetUserFavorites
      * @param  string  $userId  The ID of the user
      * @param  array  $filters  Optional filters like per_page
      */
-    public function execute(string $userId, array $filters = []): LengthAwarePaginator
+    public function execute(int $userId, array $filters = []): LengthAwarePaginator
     {
         $user = User::findOrFail($userId);
 

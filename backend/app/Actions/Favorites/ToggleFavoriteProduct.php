@@ -17,7 +17,7 @@ final class ToggleFavoriteProduct
      * @param  string  $productId  The ID of the product to toggle
      * @return array Response with status and whether product is now favorited
      */
-    public function execute(string $userId, string $productId): array
+    public function execute(int $userId, int $productId): array
     {
         $user = User::findOrFail($userId);
         $product = Product::findOrFail($productId);
