@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
@@ -40,4 +37,9 @@ Route::middleware(['auth:sanctum'])->prefix('cart')->group(function () {
     Route::post('/{productId}', [CartController::class, 'addOrUpdate']);
     Route::delete('/{productId}', [CartController::class, 'remove']);
     Route::delete('/', [CartController::class, 'clear']);
+});
+
+Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'show']);
+    Route::put('/', [ProfileController::class, 'update']);
 });

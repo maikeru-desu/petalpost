@@ -14,7 +14,7 @@ export default function Header() {
     const { data: cartData } = useCart();
     
     // Extract first name if user exists
-    const firstName = user?.name ? user.name.split(' ')[0] : null;
+    const firstName = user?.first_name ? user.first_name.split(' ')[0] : null;
     
     // Toggle dropdown menu
     const toggleDropdown = () => {
@@ -91,11 +91,27 @@ export default function Header() {
                                         Signed in as<br/>
                                         <span className="font-semibold">{user?.email}</span>
                                     </div>
+                                    <Link 
+                                        to="/profile"
+                                        className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                    >
+                                        <div className="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                                            </svg>
+                                            My Profile
+                                        </div>
+                                    </Link>
                                     <button 
                                         onClick={handleLogout}
                                         className="w-full text-left block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
                                     >
-                                        Log out
+                                        <div className="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
+                                            </svg>
+                                            Log out
+                                        </div>
                                     </button>
                                 </div>
                             )}
