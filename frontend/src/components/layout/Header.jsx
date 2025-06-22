@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useState, useRef, useEffect } from 'react';
 import { useLogout } from '../../hooks/useAuth';
+import { useCart } from '../../hooks/useCart';
 
 export default function Header() {
     // Get authentication state and user data from auth store
@@ -10,6 +11,7 @@ export default function Header() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const logoutMutation = useLogout();
     const dropdownRef = useRef(null);
+    const { data: cartData } = useCart();
     
     // Extract first name if user exists
     const firstName = user?.name ? user.name.split(' ')[0] : null;
@@ -59,12 +61,12 @@ export default function Header() {
                     </div>
                     </div>
                     <div className="flex items-center">
-                    <button className="mr-4 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center" style={{ backgroundColor: 'rgb(var(--color-redwood))', ':hover': { backgroundColor: 'rgb(var(--color-wine))' } }}>
+                    <Link to="/cart" className="mr-4 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center" style={{ backgroundColor: 'rgb(var(--color-redwood))', ':hover': { backgroundColor: 'rgb(var(--color-wine))' } }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                         </svg>
-                        Cart (0)
-                    </button>
+                        Cart ({cartData?.total_items || 0})
+                    </Link>
                     {isAuthenticated ? (
                         <div className="relative" ref={dropdownRef}>
                             <button 

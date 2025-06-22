@@ -7,3 +7,11 @@ export const useProducts = (filters = {page: 1, limit: 6}) => {
         queryFn: () => productService.getProducts(filters),
     })
 }
+
+export const useProduct = (id) => {
+    return useQuery({
+        queryKey: ['product', id],
+        queryFn: () => productService.getProduct(id),
+        enebled: !!id,
+    })
+}

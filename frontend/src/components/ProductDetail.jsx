@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { productService } from '../api/productService';
-import { favoriteService } from '../api/favoriteService';
+import { useAddToCart } from '../hooks/useCart';
+import { toast } from 'react-hot-toast';
 import LoadingScreen from './common/LoadingScreen';
+import { useProduct } from '../hooks/useProduct';
+import { useFavoriteStatus, useToggleFavorite } from '../hooks/useFavorites';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   
-  const { data: product, isLoading, error } = useQuery({
-    queryKey: ['product', id],
-    queryFn: () => productService.getProduct(id),
-  });
+  const { data: product, isLoading, error } = useProduct(id)
   
-  // Check if product is favorited
-  useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      if (id) {
-        try {
-          const status = await favoriteService.checkFavoriteStatus(id);
-          setIsFavorite(status);
-        } catch (error) {
-          console.error('Error checking favorite status:', error);
-        }
-      }
-    };
-    
-    checkFavoriteStatus();
-  }, [id]);
+  const { data: isFavorite } = useFavoriteStatus(id)
   
-  // Mutation for toggling favorite status
-  const toggleFavoriteMutation = useMutation({
-    mutationFn: (productId) => favoriteService.toggleFavorite(productId),
-    onSuccess: (data) => {
-      setIsFavorite(data.favorited);
-      queryClient.invalidateQueries(['favorites']);
-    },
-    onError: (error) => {
-      console.error('Error toggling favorite:', error);
-    }
-  });
+  // Mutation for adding to cart
+  const addToCartMutation = useAddToCart();
+
+  const toggleFavoriteMutation = useToggleFavorite();
   
   const handleToggleFavorite = () => {
-    toggleFavoriteMutation.mutate(id);
+    toggleFavoriteMutation.mutate(Number(id));
+  };
+  
+  const handleAddToCart = () => {
+    if (quantity < 1) {
+      toast.error('Quantity must be at least 1');
+      return;
+    }
+    
+    addToCartMutation.mutate({
+      productId: Number(id),
+      quantity: quantity
+    });
+  };
+  
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value > 0) {
+      setQuantity(value);
+    }
   };
 
   if (isLoading) {
@@ -131,7 +126,45 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            {/* Quantity Selector */}
+            <div className="mt-6">
+              <label htmlFor="quantity" className="block text-sm font-medium text-caput-mortuum">Quantity</label>
+              <div className="mt-2 flex max-w-[180px]">
+                <button 
+                  type="button" 
+                  className="flex items-center justify-center w-10 h-10 bg-flax bg-opacity-20 border border-flax rounded-l-md text-caput-mortuum hover:bg-flax hover:bg-opacity-30 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sage"
+                  onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                  disabled={quantity <= 1}
+                  aria-label="Decrease quantity"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                <input
+                  type="number"
+                  name="quantity"
+                  id="quantity"
+                  min="1"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-14 h-10 border-y border-flax focus:ring-sage focus:border-sage text-center text-caput-mortuum font-medium text-lg"
+                  aria-label="Product quantity"
+                />
+                <button 
+                  type="button" 
+                  className="flex items-center justify-center w-10 h-10 bg-flax bg-opacity-20 border border-flax rounded-r-md text-caput-mortuum hover:bg-flax hover:bg-opacity-30 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sage"
+                  onClick={() => setQuantity(quantity + 1)}
+                  aria-label="Increase quantity"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
               <div className="flex flex-1 gap-2">
                 {/* Checkout Now button */}
                 <button
@@ -142,12 +175,14 @@ const ProductDetail = () => {
                   Checkout Now
                 </button>
                 
-                {/* Add to Bag button */}
+                {/* Add to Cart button */}
                 <button
                   type="button"
+                  onClick={handleAddToCart}
                   className="flex-1 bg-redwood border border-transparent rounded-md py-3 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redwood transition-colors duration-200"
+                  disabled={addToCartMutation.isLoading}
                 >
-                  Add to Bag
+                  {addToCartMutation.isLoading ? 'Adding...' : 'Add to Cart'}
                 </button>
               </div>
 

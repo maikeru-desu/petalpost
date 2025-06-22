@@ -10,6 +10,7 @@ use App\Actions\Favorites\ToggleFavoriteProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 final class FavoriteController extends Controller
 {
@@ -18,7 +19,7 @@ final class FavoriteController extends Controller
      */
     public function toggle(Request $request, int $productId): JsonResponse
     {
-        $userId = $request->user()->id;
+        $userId = Auth::id();
         $result = (new ToggleFavoriteProduct())->execute($userId, $productId);
 
         return response()->json($result);
@@ -29,7 +30,7 @@ final class FavoriteController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $userId = $request->user()->id;
+        $userId = Auth::id();
         $favorites = (new GetUserFavorites())->execute($userId, $request->all());
 
         return response()->json($favorites);
@@ -40,7 +41,7 @@ final class FavoriteController extends Controller
      */
     public function check(Request $request, int $productId): JsonResponse
     {
-        $userId = $request->user()->id;
+        $userId = Auth::id();
         $isFavorited = (new CheckProductFavoriteStatus())->execute($userId, $productId);
 
         return response()->json([

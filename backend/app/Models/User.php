@@ -54,6 +54,24 @@ final class User extends Authenticatable
     {
         return $this->hasMany(UserFavoriteProduct::class);
     }
+    
+    /**
+     * Get all cart products for this user.
+     */
+    public function cartProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'user_cart_products')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+    
+    /**
+     * Get all user cart items.
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(UserCartProduct::class);
+    }
 
     /**
      * Get the attributes that should be cast.

@@ -63,4 +63,14 @@ final class Product extends Model
         return $this->belongsToMany(User::class, 'user_favorite_products')
             ->withTimestamps();
     }
+    
+    /**
+     * Get all users who have this product in their cart.
+     */
+    public function inCartOf(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_cart_products')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }

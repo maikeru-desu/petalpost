@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../hooks/useProduct';
 import { useProductTypes } from '../hooks/useProductType';
@@ -37,11 +37,6 @@ const ShopPage = () => {
     data: productTypes, 
     isLoading: typesLoading 
   } = useProductTypes();
-  
-  // Scroll to top when page changes
-  useEffect(() => {
-    scrollToTop('products-section');
-  }, [filters.page]);
 
   // Handle filter changes
   const handleFilterChange = (e) => {

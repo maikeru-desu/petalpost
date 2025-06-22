@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use Illuminate\Http\Request;
@@ -32,4 +33,11 @@ Route::middleware(['auth:sanctum'])->prefix('favorites')->group(function () {
     Route::get('/', [FavoriteController::class, 'index']);
     Route::post('/{productId}', [FavoriteController::class, 'toggle']);
     Route::get('/{productId}/check', [FavoriteController::class, 'check']);
+});
+
+Route::middleware(['auth:sanctum'])->prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/{productId}', [CartController::class, 'addOrUpdate']);
+    Route::delete('/{productId}', [CartController::class, 'remove']);
+    Route::delete('/', [CartController::class, 'clear']);
 });
