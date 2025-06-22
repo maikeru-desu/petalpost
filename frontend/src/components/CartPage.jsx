@@ -46,26 +46,56 @@ const CartPage = () => {
   
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Cart</h1>
-        <Link 
-          to="/shop" 
-          className="text-sage-600 hover:text-sage-800 inline-flex items-center"
-        >
-          <FaArrowLeft className="mr-2" /> Continue Shopping
-        </Link>
-      </div>
-
-      {isEmpty ? (
-        <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-medium text-gray-900 mb-4">Your cart is empty</h2>
-          <p className="text-gray-600 mb-6">Looks like you haven't added any products to your cart yet.</p>
+      {!isEmpty && (
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Cart</h1>
           <Link 
             to="/shop" 
-            className="bg-sage-600 text-white px-6 py-3 rounded-md hover:bg-sage-700 transition"
+            className="text-sage-600 hover:text-sage-800 inline-flex items-center"
           >
+            <FaArrowLeft className="mr-2" /> Continue Shopping
+          </Link>
+        </div>
+      )}
+
+      {isEmpty ? (
+        <div className="bg-white bg-opacity-10 rounded-lg p-8 text-center max-w-2xl mx-auto border border-flax border-opacity-30 shadow-sm mt-8">
+          <div className="flex flex-col items-center">
+            <div className="w-24 h-24 rounded-full bg-ecru bg-opacity-30 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-redwood" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            
+            <h2 className="text-2xl font-bold text-caput-mortuum mb-3">Your cart is empty</h2>
+            
+            <p className="text-wine mb-8 max-w-md">
+              Looks like you haven't added any floral arrangements to your cart yet. 
+              Explore our collection of beautiful bouquets and arrangements to brighten someone's day!
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+          <Link 
+            to="/shop" 
+                className="bg-redwood px-6 py-3 rounded-md text-white font-medium hover:bg-opacity-90 transition-colors flex items-center justify-center"
+          >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
             Browse Products
           </Link>
+              
+              <Link 
+                to="/" 
+                className="border border-wine px-6 py-3 rounded-md text-wine font-medium hover:bg-wine hover:text-white transition-colors flex items-center justify-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Return to Homepage
+              </Link>
+            </div>
+          </div>
         </div>
       ) : (
         <>

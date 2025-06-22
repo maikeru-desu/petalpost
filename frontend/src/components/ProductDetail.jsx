@@ -180,9 +180,9 @@ const ProductDetail = () => {
                   type="button"
                   onClick={handleAddToCart}
                   className="flex-1 bg-redwood border border-transparent rounded-md py-3 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-redwood transition-colors duration-200"
-                  disabled={addToCartMutation.isLoading}
+                  disabled={addToCartMutation.isPending}
                 >
-                  {addToCartMutation.isLoading ? 'Adding...' : 'Add to Cart'}
+                  {addToCartMutation.isPending ? 'Adding...' : 'Add to Cart'}
                 </button>
               </div>
 

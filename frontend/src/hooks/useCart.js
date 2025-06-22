@@ -60,7 +60,7 @@ export const useClearCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => clearCart,
+    mutationFn: () => clearCart(),
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
       toast.success('Cart cleared');
