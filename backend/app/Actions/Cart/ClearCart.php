@@ -11,8 +11,8 @@ final class ClearCart
 {
     /**
      * Remove all products from the user's cart.
-     * 
-     * @param int $userId The ID of the user
+     *
+     * @param  int  $userId  The ID of the user
      * @return int Number of items removed
      */
     public function execute(int $userId): int

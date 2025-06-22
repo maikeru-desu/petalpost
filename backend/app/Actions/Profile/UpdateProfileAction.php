@@ -12,14 +12,13 @@ final class UpdateProfileAction
     /**
      * Update the user profile
      *
-     * @param int $userId The ID of the user
-     * @param array $data The validated profile data
-     * @return User
+     * @param  int  $userId  The ID of the user
+     * @param  array  $data  The validated profile data
      */
     public function execute(int $userId, array $data): User
     {
         $user = User::findOrFail($userId);
-        
+
         return DB::transaction(function () use ($user, $data) {
             $user->update([
                 'first_name' => $data['first_name'],
@@ -27,7 +26,7 @@ final class UpdateProfileAction
                 'phone' => $data['phone'] ?? null,
                 'address' => $data['address'] ?? null,
             ]);
-            
+
             return $user;
         });
     }

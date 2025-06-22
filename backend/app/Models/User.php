@@ -56,7 +56,7 @@ final class User extends Authenticatable
     {
         return $this->hasMany(UserFavoriteProduct::class);
     }
-    
+
     /**
      * Get all cart products for this user.
      */
@@ -66,7 +66,7 @@ final class User extends Authenticatable
             ->withPivot('quantity')
             ->withTimestamps();
     }
-    
+
     /**
      * Get all user cart items.
      */

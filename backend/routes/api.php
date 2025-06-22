@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('products')->group(function () {

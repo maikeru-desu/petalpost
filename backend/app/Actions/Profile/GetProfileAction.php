@@ -11,8 +11,7 @@ final class GetProfileAction
     /**
      * Get the user profile by user ID
      *
-     * @param int $userId The ID of the user
-     * @return User
+     * @param  int  $userId  The ID of the user
      */
     public function execute(int $userId): User
     {

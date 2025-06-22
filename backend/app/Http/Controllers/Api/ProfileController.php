@@ -15,36 +15,29 @@ final class ProfileController extends Controller
 {
     /**
      * Get the authenticated user's profile
-     *
-     * @param GetProfileAction $action
-     * @return JsonResponse
      */
     public function show(GetProfileAction $action): JsonResponse
     {
         $userId = Auth::id();
         $user = $action->execute($userId);
-        
+
         return response()->json($user);
     }
 
     /**
      * Update the authenticated user's profile
-     *
-     * @param UpdateProfileRequest $request
-     * @param UpdateProfileAction $action
-     * @return JsonResponse
      */
     public function update(UpdateProfileRequest $request, UpdateProfileAction $action): JsonResponse
     {
         $userId = Auth::id();
         $user = $action->execute(
-            $userId, 
+            $userId,
             $request->validated()
         );
-        
+
         return response()->json([
             'message' => 'Profile updated successfully',
-            'user' => $user
+            'user' => $user,
         ]);
     }
 }
