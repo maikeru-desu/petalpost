@@ -10,6 +10,7 @@ use App\Actions\Favorites\ToggleFavoriteProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 final class FavoriteController extends Controller
@@ -17,35 +18,37 @@ final class FavoriteController extends Controller
     /**
      * Toggle favorite status of a product for the authenticated user.
      */
-    public function toggle(Request $request, int $productId): JsonResponse
+    public function toggle(int $productId, ToggleFavoriteProduct $action): JsonResponse
     {
-        $userId = Auth::id();
-        $result = (new ToggleFavoriteProduct())->execute($userId, $productId);
+        try {
+            $userId = Auth::id();
+            $result = $action->execute($userId, $productId);
 
-        return response()->json($result);
+            return $this->successResponse($result);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to toggle favorite status');
+        }
     }
 
     /**
      * Get all favorite products of the authenticated user.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, GetUserFavorites $action): JsonResponse
     {
         $userId = Auth::id();
-        $favorites = (new GetUserFavorites())->execute($userId, $request->all());
+        $favorites = $action->execute($userId, $request->all());
 
-        return response()->json($favorites);
+        return $this->paginatedResponse($favorites, 'Favorites retrieved successfully');
     }
 
     /**
      * Check if a product is favorited by the authenticated user.
      */
-    public function check(Request $request, int $productId): JsonResponse
+    public function check(int $productId, CheckProductFavoriteStatus $action): JsonResponse
     {
         $userId = Auth::id();
-        $isFavorited = (new CheckProductFavoriteStatus())->execute($userId, $productId);
+        $isFavorited = $action->execute($userId, $productId);
 
-        return response()->json([
-            'favorited' => $isFavorited,
-        ]);
+        return $this->successResponse(['favorited' => $isFavorited], 'Favorite status checked successfully');
     }
 }

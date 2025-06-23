@@ -6,7 +6,7 @@ import api from './axiosConfig';
  */
 export const getProfile = async () => {
   const response = await api.get('/api/profile');
-  return response.data;
+  return response.data.data;
 };
 
 /**
@@ -16,5 +16,5 @@ export const getProfile = async () => {
  */
 export const updateProfile = async (profileData) => {
   const response = await api.put('/api/profile', profileData);
-  return response.data;
+  return response.data.data;
 };

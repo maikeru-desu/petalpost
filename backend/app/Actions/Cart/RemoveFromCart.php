@@ -6,6 +6,7 @@ namespace App\Actions\Cart;
 
 use App\Models\UserCartProduct;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class RemoveFromCart
 {
@@ -19,11 +20,15 @@ final class RemoveFromCart
     public function execute(int $userId, int $productId): bool
     {
         return DB::transaction(function () use ($userId, $productId) {
-            $deleted = UserCartProduct::where('user_id', $userId)
+            $userCartProduct = UserCartProduct::where('user_id', $userId)
                 ->where('product_id', $productId)
-                ->delete();
+                ->first();
 
-            return $deleted > 0;
+            if (!$userCartProduct) {
+                throw new ModelNotFoundException('Product not found in cart');
+            }
+
+            return $userCartProduct->delete();
         });
     }
 }

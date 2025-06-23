@@ -3,11 +3,15 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductTypeController;
 use Illuminate\Support\Facades\Route;
+
+// Contact form
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);

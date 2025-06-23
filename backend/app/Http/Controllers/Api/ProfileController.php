@@ -21,7 +21,7 @@ final class ProfileController extends Controller
         $userId = Auth::id();
         $user = $action->execute($userId);
 
-        return response()->json($user);
+        return $this->successResponse($user, 'Profile retrieved successfully');
     }
 
     /**
@@ -35,9 +35,6 @@ final class ProfileController extends Controller
             $request->validated()
         );
 
-        return response()->json([
-            'message' => 'Profile updated successfully',
-            'user' => $user,
-        ]);
+        return $this->successResponse($user, 'Profile updated successfully');
     }
 }

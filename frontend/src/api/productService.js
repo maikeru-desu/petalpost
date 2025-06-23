@@ -8,21 +8,22 @@ export const productService = {
 
     async getProduct(id) {
         const response = await api.get(`/api/products/${id}`);
-        return response.data;
+        return response.data.data;
     },
 
-    async createProduct(product) {
-        const response = await api.post('/api/products', product);
-        return response.data;
-    },
+    // TODO: Implement the following methods to Admin Side
+    // async createProduct(product) {
+    //     const response = await api.post('/api/products', product);
+    //     return response.data;
+    // },
 
-    async updateProduct(id, product) {
-        const response = await api.put(`/api/products/${id}`, product);
-        return response.data;
-    },
+    // async updateProduct(id, product) {
+    //     const response = await api.put(`/api/products/${id}`, product);
+    //     return response.data;
+    // },
 
-    async deleteProduct(id) {
-        const response = await api.delete(`/api/products/${id}`);
-        return response.data;
-    }
+    // async deleteProduct(id) {
+    //     const response = await api.delete(`/api/products/${id}`);
+    //     return response.data;
+    // }
 }

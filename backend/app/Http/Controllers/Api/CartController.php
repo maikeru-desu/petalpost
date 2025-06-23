@@ -9,6 +9,7 @@ use App\Actions\Cart\ClearCart;
 use App\Actions\Cart\GetCartItems;
 use App\Actions\Cart\RemoveFromCart;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,16 +21,21 @@ final class CartController extends Controller
      */
     public function index(GetCartItems $action): JsonResponse
     {
-        $userId = Auth::id();
-        $cartItems = $action->execute($userId);
-
-        return response()->json([
-            'data' => $cartItems,
-            'total_items' => $cartItems->sum('quantity'),
-            'total_price' => $cartItems->sum(function ($item) {
-                return $item->quantity * $item->product->price;
-            }),
-        ]);
+        try {
+            $userId = Auth::id();
+            $cartItems = $action->execute($userId);
+            
+            $metaData = [
+                'total_items' => $cartItems->sum('quantity'),
+                'total_price' => $cartItems->sum(function ($item) {
+                    return $item->quantity * $item->product->price;
+                }),
+            ];
+            
+            return $this->responseWithMeta($cartItems, $metaData, 'Cart items retrieved successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve cart items');
+        }
     }
 
     /**
@@ -37,17 +43,18 @@ final class CartController extends Controller
      */
     public function addOrUpdate(int $productId, Request $request, AddToCart $action): JsonResponse
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
+        try {
+            $request->validate([
+                'quantity' => 'required|integer|min:1',
+            ]);
 
-        $userId = Auth::id();
-        $cartItem = $action->execute($userId, $productId, $request->quantity);
+            $userId = Auth::id();
+            $cartItem = $action->execute($userId, $productId, $request->quantity);
 
-        return response()->json([
-            'message' => 'Product added to cart successfully',
-            'data' => $cartItem,
-        ]);
+            return $this->successResponse($cartItem, 'Product added to cart successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to add product to cart');
+        }
     }
 
     /**
@@ -55,14 +62,16 @@ final class CartController extends Controller
      */
     public function remove(int $productId, RemoveFromCart $action): JsonResponse
     {
-        $userId = Auth::id();
-        $success = $action->execute($userId, $productId);
+        try {
+            $userId = Auth::id();
+            $action->execute($userId, $productId);
 
-        if ($success) {
-            return response()->json(['message' => 'Product removed from cart successfully']);
+            return $this->successResponse(null, 'Product removed from cart successfully');
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse('Product not found in cart', 404);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to remove product from cart');
         }
-
-        return response()->json(['message' => 'Product not found in cart'], 404);
     }
 
     /**
@@ -70,12 +79,13 @@ final class CartController extends Controller
      */
     public function clear(ClearCart $action): JsonResponse
     {
-        $userId = Auth::id();
-        $itemsRemoved = $action->execute($userId);
+        try {
+            $userId = Auth::id();
+            $itemsRemoved = $action->execute($userId);
 
-        return response()->json([
-            'message' => 'Cart cleared successfully',
-            'items_removed' => $itemsRemoved,
-        ]);
+            return $this->successResponse(['items_removed' => $itemsRemoved], 'Cart cleared successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to clear cart');
+        }
     }
 }
