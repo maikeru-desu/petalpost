@@ -9,6 +9,7 @@ use App\Actions\Cart\ClearCart;
 use App\Actions\Cart\GetCartItems;
 use App\Actions\Cart\RemoveFromCart;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,16 +25,16 @@ final class CartController extends Controller
         try {
             $userId = Auth::id();
             $cartItems = $action->execute($userId);
-            
+
             $metaData = [
                 'total_items' => $cartItems->sum('quantity'),
                 'total_price' => $cartItems->sum(function ($item) {
                     return $item->quantity * $item->product->price;
                 }),
             ];
-            
+
             return $this->responseWithMeta($cartItems, $metaData, 'Cart items retrieved successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to retrieve cart items');
         }
     }
@@ -52,7 +53,7 @@ final class CartController extends Controller
             $cartItem = $action->execute($userId, $productId, $request->quantity);
 
             return $this->successResponse($cartItem, 'Product added to cart successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to add product to cart');
         }
     }
@@ -69,7 +70,7 @@ final class CartController extends Controller
             return $this->successResponse(null, 'Product removed from cart successfully');
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Product not found in cart', 404);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to remove product from cart');
         }
     }
@@ -84,7 +85,7 @@ final class CartController extends Controller
             $itemsRemoved = $action->execute($userId);
 
             return $this->successResponse(['items_removed' => $itemsRemoved], 'Cart cleared successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to clear cart');
         }
     }

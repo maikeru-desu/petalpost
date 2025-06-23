@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
@@ -11,10 +13,9 @@ trait ApiResponseTrait
     /**
      * Send a success response.
      *
-     * @param mixed $data The data to be returned
-     * @param string $message The success message
-     * @param int $statusCode The HTTP status code
-     * @return \Illuminate\Http\JsonResponse
+     * @param  mixed  $data  The data to be returned
+     * @param  string  $message  The success message
+     * @param  int  $statusCode  The HTTP status code
      */
     protected function successResponse($data = null, $message = 'Success', int $statusCode = Response::HTTP_OK): JsonResponse
     {
@@ -28,9 +29,8 @@ trait ApiResponseTrait
     /**
      * Send an error response.
      *
-     * @param string $message The error message
-     * @param int $statusCode The HTTP status code
-     * @return \Illuminate\Http\JsonResponse
+     * @param  string  $message  The error message
+     * @param  int  $statusCode  The HTTP status code
      */
     protected function errorResponse($message = 'Error', int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR): JsonResponse
     {
@@ -40,14 +40,13 @@ trait ApiResponseTrait
         ], $statusCode);
     }
 
-     /**
+    /**
      * Custom response with meta data
-     * 
-     * @param mixed $data The data to be returned
-     * @param array $meta The meta data
-     * @param string $message The success message
-     * @param int $statusCode The HTTP status code
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  mixed  $data  The data to be returned
+     * @param  array  $meta  The meta data
+     * @param  string  $message  The success message
+     * @param  int  $statusCode  The HTTP status code
      */
     protected function responseWithMeta($data, array $meta, string $message = 'Success', int $statusCode = Response::HTTP_OK): JsonResponse
     {
@@ -61,10 +60,9 @@ trait ApiResponseTrait
 
     /**
      * Paginated response
-     * 
-     * @param \Illuminate\Pagination\LengthAwarePaginator $paginator The paginator instance
-     * @param string $message The success message
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @param  LengthAwarePaginator  $paginator  The paginator instance
+     * @param  string  $message  The success message
      */
     protected function paginatedResponse(LengthAwarePaginator $paginator, string $message = 'Data retrieved successfully'): JsonResponse
     {

@@ -21,7 +21,6 @@ final class CreateProduct
     public function execute(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            // Handle image file upload
             $imageName = null;
 
             if (isset($data['image']) && $data['image'] instanceof UploadedFile) {

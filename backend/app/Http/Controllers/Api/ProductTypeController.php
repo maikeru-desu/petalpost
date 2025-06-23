@@ -9,13 +9,13 @@ use App\Actions\ProductTypes\DeleteProductType;
 use App\Actions\ProductTypes\GetProductType;
 use App\Actions\ProductTypes\ListProductTypes;
 use App\Actions\ProductTypes\UpdateProductType;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductTypeRequest;
 use App\Http\Requests\UpdateProductTypeRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use App\Http\Controllers\Controller;
 
 final class ProductTypeController extends Controller
 {

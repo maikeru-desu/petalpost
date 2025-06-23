@@ -9,12 +9,12 @@ use App\Actions\Products\DeleteProduct;
 use App\Actions\Products\GetProduct;
 use App\Actions\Products\ListProducts;
 use App\Actions\Products\UpdateProduct;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 
 final class ProductController extends Controller
 {

@@ -25,17 +25,14 @@ final class AddToCart
         $product = Product::findOrFail($productId);
 
         return DB::transaction(function () use ($userId, $productId, $quantity, $product) {
-            // Check if the product is already in the cart
             $cartItem = UserCartProduct::where('user_id', $userId)
                 ->where('product_id', $productId)
                 ->first();
 
             if ($cartItem) {
-                // Update quantity
                 $cartItem->quantity = $quantity;
                 $cartItem->save();
             } else {
-                // Create new cart item
                 $cartItem = UserCartProduct::create([
                     'user_id' => $userId,
                     'product_id' => $productId,

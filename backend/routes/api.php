@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FavoriteController;
-use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductTypeController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Contact form

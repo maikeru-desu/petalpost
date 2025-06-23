@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Actions\ContactActions\CreateContactAction;
@@ -7,18 +9,17 @@ use App\Actions\ContactActions\GetContactsAction;
 use App\Actions\ContactActions\MarkContactAsReadAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateContactRequest;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ContactController extends Controller
+final class ContactController extends Controller
 {
     /**
      * Create a new contact message.
      *
-     * @param Request $request
-     * @param CreateContactAction $action
-     * @return JsonResponse
+     * @param  Request  $request
      */
     public function store(CreateContactRequest $request, CreateContactAction $action): JsonResponse
     {
@@ -26,50 +27,42 @@ class ContactController extends Controller
             $action->execute($request->validated());
 
             return $this->successResponse(null, 'Contact message sent successfully', 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to send message', 500);
         }
     }
 
     /**
      * Get all contact messages (admin only).
-     *
-     * @param Request $request
-     * @param GetContactsAction $action
-     * @return JsonResponse
      */
     public function index(Request $request, GetContactsAction $action): JsonResponse
     {
         try {
             $perPage = $request->input('per_page', 15);
             $unreadOnly = $request->boolean('unread_only', false);
-            
+
             $contacts = $action->execute($perPage, $unreadOnly);
-            
+
             return $this->successResponse($contacts, 'Contacts retrieved successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to retrieve contacts');
         }
     }
 
     /**
      * Mark a contact message as read (admin only).
-     *
-     * @param int $id
-     * @param MarkContactAsReadAction $action
-     * @return JsonResponse
      */
     public function markAsRead(int $id, MarkContactAsReadAction $action): JsonResponse
     {
         try {
             $contact = $action->execute($id);
-            
-            if (!$contact) {
+
+            if (! $contact) {
                 return $this->errorResponse('Contact not found', Response::HTTP_NOT_FOUND);
             }
-            
+
             return $this->successResponse($contact, 'Contact marked as read');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to mark contact as read', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

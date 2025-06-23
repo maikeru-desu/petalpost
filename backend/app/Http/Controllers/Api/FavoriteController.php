@@ -8,9 +8,9 @@ use App\Actions\Favorites\CheckProductFavoriteStatus;
 use App\Actions\Favorites\GetUserFavorites;
 use App\Actions\Favorites\ToggleFavoriteProduct;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 final class FavoriteController extends Controller
@@ -25,7 +25,7 @@ final class FavoriteController extends Controller
             $result = $action->execute($userId, $productId);
 
             return $this->successResponse($result);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse('Failed to toggle favorite status');
         }
     }

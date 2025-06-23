@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\Cart;
 
 use App\Models\UserCartProduct;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 final class RemoveFromCart
 {
@@ -24,7 +24,7 @@ final class RemoveFromCart
                 ->where('product_id', $productId)
                 ->first();
 
-            if (!$userCartProduct) {
+            if (! $userCartProduct) {
                 throw new ModelNotFoundException('Product not found in cart');
             }
 

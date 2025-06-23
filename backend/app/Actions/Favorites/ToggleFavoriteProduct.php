@@ -7,6 +7,7 @@ namespace App\Actions\Favorites;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\UserFavoriteProduct;
+use Illuminate\Support\Facades\DB;
 
 final class ToggleFavoriteProduct
 {
@@ -27,7 +28,6 @@ final class ToggleFavoriteProduct
             ->first();
 
         if ($favorite) {
-            // If already favorited, remove it
             $favorite->delete();
 
             return [
@@ -36,17 +36,18 @@ final class ToggleFavoriteProduct
                 'message' => 'Product removed from favorites',
             ];
         }
-        // If not favorited, add it
-        UserFavoriteProduct::create([
-            'user_id' => $userId,
-            'product_id' => $productId,
-        ]);
 
-        return [
-            'status' => 'success',
-            'favorited' => true,
-            'message' => 'Product added to favorites',
-        ];
+        return DB::transaction(function () use ($userId, $productId) {
+            UserFavoriteProduct::create([
+                'user_id' => $userId,
+                'product_id' => $productId,
+            ]);
 
+            return [
+                'status' => 'success',
+                'favorited' => true,
+                'message' => 'Product added to favorites',
+            ];
+        });
     }
 }
