@@ -399,7 +399,7 @@ const ShopPage = () => {
                           backgroundColor: 'rgba(var(--color-flax), 0.2)',
                           color: 'rgb(var(--color-redwood))'
                         }}>
-                        {product.productType?.name || 'Arrangement'}
+                        {product.product_type?.name || 'Arrangement'}
                       </span>
                     </div>
                   </div>
