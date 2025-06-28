@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getProfile, updateProfile } from '../api/profileService';
 import { toast } from 'react-hot-toast';
+import { profileService } from '../api/profileService';
 
 /**
  * Hook to fetch user profile
@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 export const useProfile = () => {
   return useQuery({
     queryKey: ['profile'],
-    queryFn: getProfile,
+    queryFn: profileService.getProfile,
   });
 };
 
@@ -19,7 +19,7 @@ export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (profileData) => updateProfile(profileData),
+    mutationFn: (profileData) => profileService.updateProfile(profileData),
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
       toast.success('Profile updated successfully');

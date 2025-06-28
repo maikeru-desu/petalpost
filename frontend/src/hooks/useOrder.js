@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createOrder, getOrders, getOrderById, cancelOrder } from '../api/orderService';
+import { orderService } from '../api/orderService';
 import { toast } from 'react-hot-toast';
 
 /**
@@ -9,7 +9,7 @@ export const useCreateOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (orderData) => createOrder(orderData),
+    mutationFn: (orderData) => orderService.createOrder(orderData),
     onSuccess: () => {
       queryClient.invalidateQueries(['orders']);
       queryClient.invalidateQueries(['cart']);
@@ -33,7 +33,7 @@ export const useCreateOrder = () => {
 export const useOrders = (filters = {page: 1, per_page: 12}) => {
   return useQuery({
     queryKey: ['orders', filters],
-    queryFn: () => getOrders(filters),
+    queryFn: () => orderService.getOrders(filters),
     staleTime: 1000 * 60 * 5, // 5 minutes
     refetchOnWindowFocus: false,
     onError: () => {
@@ -48,7 +48,7 @@ export const useOrders = (filters = {page: 1, per_page: 12}) => {
 export const useOrderById = (orderId) => {
   return useQuery({
     queryKey: ['orders', orderId],
-    queryFn: () => getOrderById(orderId),
+    queryFn: () => orderService.getOrderById(orderId),
     staleTime: 1000 * 60 * 5, // 5 minutes
     refetchOnWindowFocus: false,
     enabled: !!orderId,
@@ -65,7 +65,7 @@ export const useCancelOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ orderId, reason }) => cancelOrder(orderId, reason),
+    mutationFn: ({ orderId, reason }) => orderService.cancelOrder(orderId, reason),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries(['orders']);
       queryClient.invalidateQueries(['orders', variables.orderId]);

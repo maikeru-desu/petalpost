@@ -93,6 +93,7 @@ export default function Header() {
                                     <Link 
                                         to="/profile"
                                         className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                        onClick={() => setDropdownOpen(false)}
                                     >
                                         <div className="flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -104,6 +105,7 @@ export default function Header() {
                                     <Link 
                                         to="/orders"
                                         className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                        onClick={() => setDropdownOpen(false)}
                                     >
                                         <div className="flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -116,6 +118,7 @@ export default function Header() {
                                     <Link 
                                         to="/favorites"
                                         className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                        onClick={() => setDropdownOpen(false)}
                                     >
                                         <div className="flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">

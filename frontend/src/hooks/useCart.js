@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getCartItems, addToCart, removeFromCart, clearCart } from '../api/cartService';
+import { cartService } from '../api/cartService';
 import { toast } from 'react-hot-toast';
 
 /**
@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 export const useCart = () => {
   return useQuery({
     queryKey: ['cart'],
-    queryFn: () => getCartItems(),
+    queryFn: () => cartService.getCartItems(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
     onError: () => {
@@ -24,7 +24,7 @@ export const useAddToCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({productId, quantity}) => addToCart(productId, quantity),
+    mutationFn: ({productId, quantity}) => cartService.addToCart(productId, quantity),
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
       toast.success('Added to cart');
@@ -42,7 +42,7 @@ export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (productId) => removeFromCart(productId),
+    mutationFn: (productId) => cartService.removeFromCart(productId),
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
       toast.success('Removed from cart');
@@ -60,7 +60,7 @@ export const useClearCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => clearCart(),
+    mutationFn: () => cartService.clearCart(),
     onSuccess: () => {
       queryClient.invalidateQueries(['cart']);
       toast.success('Cart cleared');

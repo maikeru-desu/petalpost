@@ -6,6 +6,8 @@ import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 const ProfilePage = () => {
     const { data: profileData, isLoading, error } = useProfile();
     const updateProfileMutation = useUpdateProfile();
+
+    console.log(profileData)
     
     const [formData, setFormData] = useState({
         first_name: "",
