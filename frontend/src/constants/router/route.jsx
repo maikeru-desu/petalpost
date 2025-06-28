@@ -8,6 +8,9 @@ import ShopPage from "../../components/ShopPage";
 import FavoritesPage from "../../components/FavoritesPage";
 import CartPage from "../../components/CartPage";
 import ContactPage from "../../components/ContactPage";
+import CheckoutPage from "../../components/CheckoutPage";
+import OrderConfirmationPage from "../../components/OrderConfirmationPage";
+import OrdersListPage from "../../components/OrdersListPage";
 
 // Public routes accessible to all users
 export const PUBLIC_ROUTES = [
@@ -15,18 +18,6 @@ export const PUBLIC_ROUTES = [
     path: "/login",
     element: <LoginPage />,
   },
-  {
-    path: "/contact",
-    element: (
-      <Layout>
-        <ContactPage />
-      </Layout>
-    ),
-  },
-];
-
-// Protected routes that require authentication
-export const PROTECTED_ROUTES = [
   {
     path: "/",
     element: (
@@ -51,6 +42,18 @@ export const PROTECTED_ROUTES = [
       </Layout>
     ),
   },
+  {
+    path: "/contact",
+    element: (
+      <Layout>
+        <ContactPage />
+      </Layout>
+    ),
+  },
+];
+
+// Protected routes that require authentication
+export const PROTECTED_ROUTES = [
   {
     path: "/profile",
     element: (
@@ -77,6 +80,36 @@ export const PROTECTED_ROUTES = [
       <AuthGuard>
         <Layout>
           <CartPage />
+        </Layout>
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/checkout",
+    element: (
+      <AuthGuard>
+        <Layout>
+          <CheckoutPage />
+        </Layout>
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/order-confirmation/:orderId",
+    element: (
+      <AuthGuard>
+        <Layout>
+          <OrderConfirmationPage />
+        </Layout>
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/orders",
+    element: (
+      <AuthGuard>
+        <Layout>
+          <OrdersListPage />
         </Layout>
       </AuthGuard>
     ),

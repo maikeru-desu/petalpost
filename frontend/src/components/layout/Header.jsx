@@ -1,20 +1,19 @@
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../stores/authStore';
 import { useState, useRef, useEffect } from 'react';
-import { useLogout } from '../../hooks/useAuth';
+import { useLogout, useUser } from '../../hooks/useAuth';
 import { useCart } from '../../hooks/useCart';
 
 export default function Header() {
-    // Get authentication state and user data from auth store
-    const { isAuthenticated, user } = useAuthStore();
+    // Get user data from React Query
+    const { data: user, isSuccess: isAuthenticated } = useUser();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const logoutMutation = useLogout();
     const dropdownRef = useRef(null);
     const { data: cartData } = useCart();
     
     // Extract first name if user exists
-    const firstName = user?.first_name ? user.first_name.split(' ')[0] : null;
+    const firstName = user?.data.first_name ? user.data.first_name.split(' ')[0] : null;
     
     // Toggle dropdown menu
     const toggleDropdown = () => {
@@ -100,6 +99,29 @@ export default function Header() {
                                                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                                             </svg>
                                             My Profile
+                                        </div>
+                                    </Link>
+                                    <Link 
+                                        to="/orders"
+                                        className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                    >
+                                        <div className="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v10H5V5z" clipRule="evenodd" />
+                                                <path d="M7 7h6v2H7V7zm0 4h3v2H7v-2z" />
+                                            </svg>
+                                            My Orders
+                                        </div>
+                                    </Link>
+                                    <Link 
+                                        to="/favorites"
+                                        className="block px-4 py-2 text-sm text-caput-mortuum hover:bg-flax hover:text-caput-mortuum"
+                                    >
+                                        <div className="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                                            </svg>
+                                            My Favorites
                                         </div>
                                     </Link>
                                     <button 

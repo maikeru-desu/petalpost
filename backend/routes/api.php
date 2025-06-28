@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductTypeController;
 use App\Http\Controllers\Api\ProfileController;
@@ -45,4 +46,12 @@ Route::middleware(['auth:sanctum'])->prefix('cart')->group(function () {
 Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
     Route::get('/', [ProfileController::class, 'show']);
     Route::put('/', [ProfileController::class, 'update']);
+});
+
+Route::middleware(['auth:sanctum'])->prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index']);
+    Route::post('/', [OrderController::class, 'store']);
+    Route::get('/{id}', [OrderController::class, 'show'])->where('id', '[0-9]+');
+    Route::post('/{id}/cancel', [OrderController::class, 'cancel'])->where('id', '[0-9]+');
+    Route::put('/{id}/payment-status', [OrderController::class, 'updatePaymentStatus'])->where('id', '[0-9]+');
 });

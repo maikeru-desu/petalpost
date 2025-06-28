@@ -1,6 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthCheck } from '../../hooks/useAuth';
-import { useAuthStore } from '../../stores/authStore';
 import LoadingScreen from '../common/LoadingScreen';
 
 /**
@@ -10,11 +9,10 @@ import LoadingScreen from '../common/LoadingScreen';
  * @param {React.ReactNode} props.children - Child components to render if authenticated
  */
 export default function AuthGuard({ children }) {
-  const { isAuthenticated } = useAuthStore();
   const location = useLocation();
   
   // Use our custom auth check hook
-  const { isLoading } = useAuthCheck();
+  const { data: user, isLoading, isError } = useAuthCheck();
 
   // Show loading state
   if (isLoading) {
@@ -22,7 +20,7 @@ export default function AuthGuard({ children }) {
   }
 
   // Redirect to login if not authenticated
-  if (!isAuthenticated) {
+  if (isError || !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

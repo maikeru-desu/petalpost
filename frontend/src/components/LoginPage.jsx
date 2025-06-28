@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useAuth';
-import { useAuthStore } from '../stores/authStore';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const { error: storeError } = useAuthStore();
   
   // Use the refactored login hook from useAuth.js
   const loginMutation = useLogin();

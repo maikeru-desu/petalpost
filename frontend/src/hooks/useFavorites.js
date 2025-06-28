@@ -4,10 +4,10 @@ import { favoriteService } from '../api/favoriteService';
 /**
  * Hook to get user's favorite products with pagination
  */
-export const useFavorites = (page = 1, perPage = 12) => {
+export const useFavorites = (filters = {page: 1, per_page: 12}) => {
   return useQuery({
-    queryKey: ['favorites', page, perPage],
-    queryFn: () => favoriteService.getUserFavorites(page, perPage),
+    queryKey: ['favorites', filters],
+    queryFn: () => favoriteService.getUserFavorites(filters),
     keepPreviousData: true,
   });
 };

@@ -316,7 +316,7 @@ const ShopPage = () => {
           <div className="flex flex-wrap justify-between items-center mb-6 gap-2">
             <h2 className="text-2xl font-semibold" style={{ color: 'rgb(var(--color-caput-mortuum))' }}>
               {!productsLoading && products?.data?.length > 0 ? (
-                <>Products <span className="text-xl">({products.total})</span></>
+                <>Products <span className="text-xl">({products.pagination.total})</span></>
               ) : (
                 'Products'
               )}
@@ -325,7 +325,7 @@ const ShopPage = () => {
             {/* Show summary of current page when data is loaded */}
             {!productsLoading && products && products.data.length > 0 && (
               <p className="text-sm" style={{ color: 'rgba(var(--color-caput-mortuum), 0.7)' }}>
-                Showing {products.from}-{products.to} of {products.total} items
+                Showing {products.pagination.from}-{products.pagination.to} of {products.pagination.total} items
               </p>
             )}
           </div>
@@ -440,7 +440,7 @@ const ShopPage = () => {
           )}
           
           {/* Pagination Controls */}
-          {!productsLoading && products && products.last_page > 1 && (
+          {!productsLoading && products && products.pagination.last_page > 1 && (
             <div className="flex justify-center items-center mt-8 mb-4">
               <nav className="inline-flex items-center rounded-md shadow-sm border border-opacity-10"
                 style={{ borderColor: 'rgba(var(--color-flax), 0.5)' }}
