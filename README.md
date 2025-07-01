@@ -1,18 +1,20 @@
 # PetalPost - Modern Flower Shop E-Commerce
 
-PetalPost is a full-stack e-commerce platform for a modern flower shop, built with Laravel and React. It features a responsive design, secure authentication, product catalog management, and a smooth shopping experience.
+PetalPost is a full-stack e-commerce platform for a modern flower shop, built with Laravel and React. It features a responsive design, secure authentication, product catalog management, and a smooth shopping experience with a unique floral-themed UI.
 
 ![PetalPost Banner](https://via.placeholder.com/800x400?text=PetalPost+Banner)
 
 ## Features
 
-- 🌸 Beautiful, responsive UI built with React and Tailwind CSS
+- 🌸 Beautiful, responsive UI built with React and Tailwind CSS with custom floral theming
 - 🔐 Secure authentication with Laravel Sanctum
 - 🛒 Product browsing and shopping cart functionality
 - 💳 Checkout and payment processing
 - 👤 User account management
 - 📱 Fully responsive design for mobile and desktop
 - 🔍 Product search and filtering capabilities
+- 📄 Pagination with a reusable component across product listings, favorites, and orders
+- 💀 Skeleton loading for better UX during data fetching
 - 🌟 Clean, maintainable codebase architecture
 
 ## Tech Stack
@@ -25,11 +27,11 @@ PetalPost is a full-stack e-commerce platform for a modern flower shop, built wi
 
 ### Frontend
 - **React** - JavaScript library for building user interfaces
-- **React Router** - Routing for React applications
-- **React Query** - Data fetching and state management
-- **Zustand** - Lightweight state management
-- **Tailwind CSS** - Utility-first CSS framework
-- **Axios** - HTTP client
+- **React Router v6** - Routing for React applications
+- **React Query** - Complete data fetching and state management solution
+- **Tailwind CSS** - Utility-first CSS framework with custom floral theming
+- **Axios** - HTTP client for API communication
+- **React Hot Toast** - Toast notifications
 
 ## Installation
 
@@ -113,9 +115,10 @@ npm run dev
 ### Frontend
 - `src/components` - React components
 - `src/components/layout` - Layout components (Header, Footer, etc.)
-- `src/hooks` - Custom React hooks
-- `src/stores` - Zustand store definitions
-- `src/api` - API service modules
+- `src/components/common` - Reusable UI components like Pagination
+- `src/components/guards` - Authentication protection components
+- `src/hooks` - Custom React hooks for data fetching and state management
+- `src/api` - API service modules organized as object-based services
 
 ## Development
 
