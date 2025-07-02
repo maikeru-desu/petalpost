@@ -76,23 +76,22 @@ class OrderController extends Controller
     /**
      * Display the specified order.
      */
-    public function show(int $id): JsonResponse
+    public function show(Order $order): JsonResponse
     {
         try {
             $userId = Auth::id();
-            $order = Order::where('id', $id)
-                ->where('user_id', $userId)
-                ->with('items.product')
-                ->firstOrFail();
+            
+            // Check if the order belongs to the authenticated user
+            if ($order->user_id !== $userId) {
+                return $this->errorResponse('Unauthorized access to order', Response::HTTP_FORBIDDEN);
+            }
+            
+            // Load relationships
+            $order->load('items.product');
             
             return $this->successResponse(
                 $order,
                 'Order retrieved successfully'
-            );
-        } catch (ModelNotFoundException $e) {
-            return $this->errorResponse(
-                'Order not found',
-                Response::HTTP_NOT_FOUND
             );
         } catch (\Exception $e) {
             return $this->errorResponse(
@@ -107,10 +106,9 @@ class OrderController extends Controller
      * Note: This would typically be handled in a dedicated WebhookController
      * with proper signature verification, but simplified for this example.
      */
-    public function updatePaymentStatus(Request $request, int $id): JsonResponse
+    public function updatePaymentStatus(Request $request, Order $order): JsonResponse
     {
         try {
-            $order = Order::findOrFail($id);
             $paymentStatus = $request->input('payment_status');
             
             $order->update([
@@ -121,11 +119,6 @@ class OrderController extends Controller
             return $this->successResponse(
                 $order->refresh(),
                 'Order payment status updated successfully'
-            );
-        } catch (ModelNotFoundException $e) {
-            return $this->errorResponse(
-                'Order not found',
-                Response::HTTP_NOT_FOUND
             );
         } catch (\Exception $e) {
             return $this->errorResponse(
@@ -138,14 +131,19 @@ class OrderController extends Controller
     /**
      * Cancel an order.
      */
-    public function cancel(Request $request, int $id): JsonResponse
+    public function cancel(Request $request, Order $order): JsonResponse
     {
         try {
             $userId = Auth::id();
-            $order = Order::where('id', $id)
-                ->where('user_id', $userId)
-                ->where('status', 'pending')
-                ->firstOrFail();
+            
+            // Check if the order belongs to the authenticated user and is in pending status
+            if ($order->user_id !== $userId) {
+                return $this->errorResponse('Unauthorized access to order', Response::HTTP_FORBIDDEN);
+            }
+            
+            if ($order->status !== 'pending') {
+                return $this->errorResponse('Only pending orders can be cancelled', Response::HTTP_BAD_REQUEST);
+            }
             
             $reason = $request->input('reason', 'Cancelled by customer');
             

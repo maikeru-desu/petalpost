@@ -9,6 +9,7 @@ use App\Actions\ContactActions\GetContactsAction;
 use App\Actions\ContactActions\MarkContactAsReadAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateContactRequest;
+use App\Models\Contact;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -52,10 +53,10 @@ final class ContactController extends Controller
     /**
      * Mark a contact message as read (admin only).
      */
-    public function markAsRead(int $id, MarkContactAsReadAction $action): JsonResponse
+    public function markAsRead(Contact $contact, MarkContactAsReadAction $action): JsonResponse
     {
         try {
-            $contact = $action->execute($id);
+            $contact = $action->execute($contact);
 
             if (! $contact) {
                 return $this->errorResponse('Contact not found', Response::HTTP_NOT_FOUND);

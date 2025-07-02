@@ -1,7 +1,5 @@
 import api from './axiosConfig';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const favoriteService = {
   // Get all favorites for the authenticated user
   getUserFavorites: async (filters) => {

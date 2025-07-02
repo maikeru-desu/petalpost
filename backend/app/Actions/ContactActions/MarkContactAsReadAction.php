@@ -16,14 +16,8 @@ final class MarkContactAsReadAction
      * @param  int  $contactId  ID of the contact to mark as read
      * @return Contact|null The updated contact or null if not found
      */
-    public function execute(int $contactId): ?Contact
+    public function execute(Contact $contact): ?Contact
     {
-        $contact = Contact::findOrFail($contactId);
-
-        if (! $contact) {
-            return null;
-        }
-
         return DB::transaction(function () use ($contact) {
             $contact->update([
                 'read' => true,

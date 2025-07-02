@@ -8,6 +8,7 @@ use App\Actions\Favorites\CheckProductFavoriteStatus;
 use App\Actions\Favorites\GetUserFavorites;
 use App\Actions\Favorites\ToggleFavoriteProduct;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,11 @@ final class FavoriteController extends Controller
     /**
      * Toggle favorite status of a product for the authenticated user.
      */
-    public function toggle(int $productId, ToggleFavoriteProduct $action): JsonResponse
+    public function toggle(Product $product, ToggleFavoriteProduct $action): JsonResponse
     {
         try {
             $userId = Auth::id();
-            $result = $action->execute($userId, $productId);
+            $result = $action->execute($userId, $product->id);
 
             return $this->successResponse($result);
         } catch (Exception $e) {
@@ -44,11 +45,11 @@ final class FavoriteController extends Controller
     /**
      * Check if a product is favorited by the authenticated user.
      */
-    public function check(int $productId, CheckProductFavoriteStatus $action): JsonResponse
+    public function check(Product $product, CheckProductFavoriteStatus $action): JsonResponse
     {
         $userId = Auth::id();
-        $isFavorited = $action->execute($userId, $productId);
+        $isFavorited = $action->execute($userId, $product->id);
 
-        return $this->successResponse(['favorited' => $isFavorited], 'Favorite status checked successfully');
+        return $this->successResponse(['is_favorited' => $isFavorited], 'Favorite status checked successfully');
     }
 }

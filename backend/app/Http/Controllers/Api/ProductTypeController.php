@@ -12,6 +12,7 @@ use App\Actions\ProductTypes\UpdateProductType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductTypeRequest;
 use App\Http\Requests\UpdateProductTypeRequest;
+use App\Models\ProductType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -37,10 +38,10 @@ final class ProductTypeController extends Controller
     /**
      * Display the specified product type.
      */
-    public function show(string $id, GetProductType $action): JsonResponse
+    public function show(ProductType $productType, GetProductType $action): JsonResponse
     {
         try {
-            $productType = $action->execute($id);
+            $productType = $action->execute($productType);
 
             return $this->successResponse($productType, 'Product type retrieved successfully');
         } catch (ValidationException $e) {
@@ -79,10 +80,10 @@ final class ProductTypeController extends Controller
     /**
      * Remove the specified product type.
      */
-    public function destroy(string $id, DeleteProductType $action): JsonResponse
+    public function destroy(ProductType $productType, DeleteProductType $action): JsonResponse
     {
         try {
-            $action->execute($id);
+            $action->execute($productType);
 
             return $this->successResponse(null, 'Product type deleted successfully', Response::HTTP_NO_CONTENT);
         } catch (ValidationException $e) {

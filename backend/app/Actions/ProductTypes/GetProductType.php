@@ -11,8 +11,9 @@ final class GetProductType
     /**
      * Execute the action to retrieve a specific product type.
      */
-    public function execute(int|string $id): ProductType
+    public function execute(ProductType $productType): ProductType
     {
-        return ProductType::with('products')->findOrFail($id);
+        // Load relationships if not already loaded
+        return $productType->loadMissing('products');
     }
 }

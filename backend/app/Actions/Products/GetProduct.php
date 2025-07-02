@@ -11,12 +11,10 @@ final class GetProduct
 {
     /**
      * Execute the action.
-     *
-     * @throws ModelNotFoundException
      */
-    public function execute(string $id): Product
+    public function execute(Product $product): Product
     {
-        return Product::with(['productType', 'tags'])
-            ->findOrFail($id);
+        // Load relationships if not already loaded
+        return $product->load(['productType', 'tags']);
     }
 }

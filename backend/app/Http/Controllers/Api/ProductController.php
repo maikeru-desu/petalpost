@@ -12,6 +12,7 @@ use App\Actions\Products\UpdateProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,9 +32,9 @@ final class ProductController extends Controller
     /**
      * Display the specified product.
      */
-    public function show(string $id, GetProduct $action): JsonResponse
+    public function show(Product $product, GetProduct $action): JsonResponse
     {
-        $product = $action->execute($id);
+        $product = $action->execute($product);
 
         return $this->successResponse($product, 'Product retrieved successfully');
     }

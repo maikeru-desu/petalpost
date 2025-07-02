@@ -9,6 +9,7 @@ use App\Actions\Cart\ClearCart;
 use App\Actions\Cart\GetCartItems;
 use App\Actions\Cart\RemoveFromCart;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -42,7 +43,7 @@ final class CartController extends Controller
     /**
      * Add a product to the user's cart or update quantity.
      */
-    public function addOrUpdate(int $productId, Request $request, AddToCart $action): JsonResponse
+    public function addOrUpdate(Product $product, Request $request, AddToCart $action): JsonResponse
     {
         try {
             $request->validate([
@@ -50,7 +51,7 @@ final class CartController extends Controller
             ]);
 
             $userId = Auth::id();
-            $cartItem = $action->execute($userId, $productId, $request->quantity);
+            $cartItem = $action->execute($userId, $product->id, $request->quantity);
 
             return $this->successResponse($cartItem, 'Product added to cart successfully');
         } catch (Exception $e) {
@@ -61,11 +62,11 @@ final class CartController extends Controller
     /**
      * Remove a product from the user's cart.
      */
-    public function remove(int $productId, RemoveFromCart $action): JsonResponse
+    public function remove(Product $product, RemoveFromCart $action): JsonResponse
     {
         try {
             $userId = Auth::id();
-            $action->execute($userId, $productId);
+            $action->execute($userId, $product->id);
 
             return $this->successResponse(null, 'Product removed from cart successfully');
         } catch (ModelNotFoundException $e) {

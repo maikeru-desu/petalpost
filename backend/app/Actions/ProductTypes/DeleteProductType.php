@@ -16,10 +16,8 @@ final class DeleteProductType
      *
      * @throws ValidationException
      */
-    public function execute(int|string $id): void
+    public function execute(ProductType $productType): void
     {
-        $productType = ProductType::findOrFail($id);
-
         // Check if the product type has associated products
         if ($productType->products()->count() > 0) {
             throw ValidationException::withMessages([
