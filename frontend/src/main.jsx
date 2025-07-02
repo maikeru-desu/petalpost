@@ -13,13 +13,13 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 5,
     },
   },
-  mutationCache: new MutationCache({
-    onError: (error) => {
-      if (error?.status === 401) {
-        window.location.href = '/login';
-      }
-    }
-  })
+  // mutationCache: new MutationCache({
+  //   onError: (error) => {
+  //     if (error?.status === 401) {
+  //       window.location.href = '/login';
+  //     }
+  //   }
+  // })
 })
 
 createRoot(document.getElementById('root')).render(

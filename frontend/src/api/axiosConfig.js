@@ -57,8 +57,24 @@ api.interceptors.response.use(
       // Clear any auth state if needed
       localStorage.removeItem('user');
       
-      // Redirect to login if not already there
-      if (window.location.pathname !== '/login') {
+      // Only redirect to login for protected routes
+      // This array should match your PROTECTED_ROUTES paths
+      const protectedRoutes = [
+        '/profile',
+        '/favorites',
+        '/cart',
+        '/checkout',
+        '/orders',
+        '/order-confirmation'
+      ];
+      
+      // Check if current path is a protected route
+      const isProtectedRoute = protectedRoutes.some(route => 
+        window.location.pathname.startsWith(route)
+      );
+      
+      // Only redirect if on a protected route and not already on login page
+      if (isProtectedRoute && window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
     }
