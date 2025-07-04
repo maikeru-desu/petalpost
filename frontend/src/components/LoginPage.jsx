@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useAuth';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@example.com');
+  const [password, setPassword] = useState('password');
   const [rememberMe, setRememberMe] = useState(false);
   
   // Use the refactored login hook from useAuth.js
