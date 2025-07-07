@@ -112,6 +112,12 @@ npm run dev
 - `app/Models` - Database models
 - `routes/api.php` - API routes
 
+## API Documentation
+
+Detailed API documentation is available in Postman:
+
+[PetalPost API Documentation](https://documenter.getpostman.com/view/44895195/2sB34cphxz)
+
 ### Frontend
 - `src/components` - React components
 - `src/components/layout` - Layout components (Header, Footer, etc.)
