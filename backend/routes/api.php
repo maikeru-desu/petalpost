@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\UserCartProductController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\OrderController;
@@ -37,10 +37,10 @@ Route::middleware(['auth:sanctum'])->prefix('favorites')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->prefix('cart')->group(function () {
-    Route::get('/', [CartController::class, 'index']);
-    Route::post('/{product}', [CartController::class, 'addOrUpdate']);
-    Route::delete('/{product}', [CartController::class, 'remove']);
-    Route::delete('/', [CartController::class, 'clear']);
+    Route::get('/', [UserCartProductController::class, 'index']);
+    Route::post('/{product}', [UserCartProductController::class, 'addOrUpdate']);
+    Route::delete('/{product}', [UserCartProductController::class, 'remove']);
+    Route::delete('/', [UserCartProductController::class, 'clear']);
 });
 
 Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
