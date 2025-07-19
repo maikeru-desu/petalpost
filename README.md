@@ -1,8 +1,10 @@
+<p align="center">
+  <img src="https://maikeru-desu.quest/github-image/petalpost.png" width="150">
+</p>
+
 # PetalPost - Modern Flower Shop E-Commerce
 
 PetalPost is a full-stack e-commerce platform for a modern flower shop, built with Laravel and React. It features a responsive design, secure authentication, product catalog management, and a smooth shopping experience with a unique floral-themed UI.
-
-![PetalPost Banner](https://via.placeholder.com/800x400?text=PetalPost+Banner)
 
 ## Features
 
