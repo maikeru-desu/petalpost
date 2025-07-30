@@ -204,4 +204,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Michael Joseph Gelvez - [@kiminotenmei](https://x.com/kiminotenmei)
 
-Project Link: [https://github.com/maikeru-desu/petalpost](https://github.com/maikeru-desu/petalpost)
+Project Link: [https://petalpost.maikeru-desu.quest](https://petalpost.maikeru-desu.quest)
