@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
+use Stripe\StripeClient;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,9 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(StripeClient::class, function ($app) {
+            return new StripeClient(config('services.stripe.secret_key'));
+        });
     }
 
     /**

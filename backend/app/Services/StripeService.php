@@ -13,9 +13,9 @@ use Stripe\Stripe;
 
 final class StripeService
 {
-    public function __construct()
+    public function __construct(string $stripeSecretKey)
     {
-        Stripe::setApiKey(config('services.stripe.secret_key'));
+        Stripe::setApiKey($stripeSecretKey);
     }
 
     public function createProductWithPrice(string $name, int $amountInCents, string $currency = 'usd'): array
@@ -52,10 +52,10 @@ final class StripeService
             $product->delete();
         }
     }
-    
+
     /**
      * Create payment intent for order processing
-     * 
+     *
      * @param int $amountInCents Total order amount in cents
      * @param string $currency Currency code
      * @param string $description Order description
@@ -74,7 +74,7 @@ final class StripeService
                 'enabled' => true,
             ],
         ]);
-        
+
         return [
             'id' => $paymentIntent->id,
             'client_secret' => $paymentIntent->client_secret,
@@ -83,10 +83,10 @@ final class StripeService
             'currency' => $paymentIntent->currency,
         ];
     }
-    
+
     /**
      * Create a checkout session for order processing
-     * 
+     *
      * @param array $lineItems Line items for the checkout
      * @param string $successUrl URL to redirect after successful payment
      * @param string $cancelUrl URL to redirect if payment is cancelled
@@ -103,7 +103,7 @@ final class StripeService
             'cancel_url' => $cancelUrl,
             'metadata' => $metadata,
         ]);
-        
+
         return [
             'id' => $session->id,
             'url' => $session->url,
