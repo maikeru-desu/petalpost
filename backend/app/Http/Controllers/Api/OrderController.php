@@ -11,13 +11,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOrderRequest;
 use App\Models\Order;
 use App\Traits\ApiResponseTrait;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class OrderController extends Controller
+final class OrderController extends Controller
 {
     use ApiResponseTrait;
 
@@ -28,10 +29,11 @@ class OrderController extends Controller
     {
         try {
             $orders = $action->execute($request->all());
+
             return $this->paginatedResponse($orders, 'Orders retrieved successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
-                'Failed to retrieve orders: ' . $e->getMessage(),
+                'Failed to retrieve orders: '.$e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
@@ -45,7 +47,7 @@ class OrderController extends Controller
         try {
             $userId = Auth::id();
             $validatedData = $request->validated();
-            
+
             $result = $action->execute(
                 $userId,
                 $validatedData['items'],
@@ -54,7 +56,7 @@ class OrderController extends Controller
             );
 
             $clearCartAction->execute($userId);
-            
+
             return $this->successResponse(
                 $result,
                 'Order created successfully',
@@ -65,9 +67,9 @@ class OrderController extends Controller
                 $e->getMessage(),
                 Response::HTTP_NOT_FOUND
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
-                'Failed to create order: ' . $e->getMessage(),
+                'Failed to create order: '.$e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
@@ -80,27 +82,27 @@ class OrderController extends Controller
     {
         try {
             $userId = Auth::id();
-            
+
             // Check if the order belongs to the authenticated user
             if ($order->user_id !== $userId) {
                 return $this->errorResponse('Unauthorized access to order', Response::HTTP_FORBIDDEN);
             }
-            
+
             // Load relationships
             $order->load('items.product');
-            
+
             return $this->successResponse(
                 $order,
                 'Order retrieved successfully'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
-                'Failed to retrieve order: ' . $e->getMessage(),
+                'Failed to retrieve order: '.$e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
     }
-    
+
     /**
      * Update order payment status based on Stripe webhook.
      * Note: This would typically be handled in a dedicated WebhookController
@@ -110,24 +112,24 @@ class OrderController extends Controller
     {
         try {
             $paymentStatus = $request->input('payment_status');
-            
+
             $order->update([
                 'payment_status' => $paymentStatus,
                 'status' => $paymentStatus === 'succeeded' ? 'paid' : 'payment_failed',
             ]);
-            
+
             return $this->successResponse(
                 $order->refresh(),
                 'Order payment status updated successfully'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
-                'Failed to update order payment status: ' . $e->getMessage(),
+                'Failed to update order payment status: '.$e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
     }
-    
+
     /**
      * Cancel an order.
      */
@@ -135,24 +137,24 @@ class OrderController extends Controller
     {
         try {
             $userId = Auth::id();
-            
+
             // Check if the order belongs to the authenticated user and is in pending status
             if ($order->user_id !== $userId) {
                 return $this->errorResponse('Unauthorized access to order', Response::HTTP_FORBIDDEN);
             }
-            
+
             if ($order->status !== 'pending') {
                 return $this->errorResponse('Only pending orders can be cancelled', Response::HTTP_BAD_REQUEST);
             }
-            
+
             $reason = $request->input('reason', 'Cancelled by customer');
-            
+
             $order->update([
                 'status' => 'cancelled',
                 'cancelled_at' => now(),
                 'cancellation_reason' => $reason,
             ]);
-            
+
             return $this->successResponse(
                 $order->refresh(),
                 'Order cancelled successfully'
@@ -162,9 +164,9 @@ class OrderController extends Controller
                 'Order not found or cannot be cancelled',
                 Response::HTTP_NOT_FOUND
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse(
-                'Failed to cancel order: ' . $e->getMessage(),
+                'Failed to cancel order: '.$e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }

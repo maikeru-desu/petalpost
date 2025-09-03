@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Products;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class GetProduct
 {

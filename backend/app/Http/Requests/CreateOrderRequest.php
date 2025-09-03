@@ -31,7 +31,7 @@ final class CreateOrderRequest extends FormRequest
             'shipping_address' => ['required', 'string', 'max:1000'],
         ];
     }
-    
+
     /**
      * Get custom messages for validator errors.
      *

@@ -56,11 +56,12 @@ final class StripeService
     /**
      * Create payment intent for order processing
      *
-     * @param int $amountInCents Total order amount in cents
-     * @param string $currency Currency code
-     * @param string $description Order description
-     * @param array $metadata Additional metadata
+     * @param  int  $amountInCents  Total order amount in cents
+     * @param  string  $currency  Currency code
+     * @param  string  $description  Order description
+     * @param  array  $metadata  Additional metadata
      * @return array Payment intent details
+     *
      * @throws ApiErrorException
      */
     public function createPaymentIntent(int $amountInCents, string $currency = 'usd', string $description = '', array $metadata = []): array
@@ -87,11 +88,12 @@ final class StripeService
     /**
      * Create a checkout session for order processing
      *
-     * @param array $lineItems Line items for the checkout
-     * @param string $successUrl URL to redirect after successful payment
-     * @param string $cancelUrl URL to redirect if payment is cancelled
-     * @param array $metadata Additional metadata
+     * @param  array  $lineItems  Line items for the checkout
+     * @param  string  $successUrl  URL to redirect after successful payment
+     * @param  string  $cancelUrl  URL to redirect if payment is cancelled
+     * @param  array  $metadata  Additional metadata
      * @return array Checkout session details
+     *
      * @throws ApiErrorException
      */
     public function createCheckoutSession(array $lineItems, string $successUrl, string $cancelUrl, array $metadata = []): array

@@ -5,34 +5,28 @@ declare(strict_types=1);
 namespace App\Actions\Order;
 
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Product;
 use App\Services\StripeService;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Stripe\Exception\ApiErrorException;
 
-class CreateOrder
+final class CreateOrder
 {
     public function __construct(
         private StripeService $stripeService
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the action.
      *
-     * @param int $userId
-     * @param array $items
-     * @param string $billingAddress
-     * @param string $shippingAddress
-     * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(
-        int $userId, 
-        array $items, 
-        string $billingAddress, 
+        int $userId,
+        array $items,
+        string $billingAddress,
         string $shippingAddress
     ): array {
         // Wrap everything in a transaction for data integrity
@@ -41,21 +35,21 @@ class CreateOrder
             $total = 0;
             $orderItems = [];
             $stripeLineItems = [];
-            
+
             foreach ($items as $item) {
                 $productId = (int) $item['product_id'];
                 $quantity = (int) $item['quantity'];
-                
+
                 // Find product or throw exception
                 $product = Product::find($productId);
-                if (!$product) {
+                if (! $product) {
                     throw new ModelNotFoundException("Product with ID {$productId} not found");
                 }
-                
+
                 // Calculate subtotal for this item
                 $subtotal = $product->price * $quantity;
                 $total += $subtotal;
-                
+
                 // Store for later use
                 $orderItems[] = [
                     'product_id' => $productId,
@@ -63,7 +57,7 @@ class CreateOrder
                     'unit_price' => $product->price,
                     'subtotal' => $subtotal,
                 ];
-                
+
                 // Prepare Stripe line items
                 $stripeLineItems[] = [
                     'price_data' => [
@@ -77,7 +71,7 @@ class CreateOrder
                     'quantity' => $quantity,
                 ];
             }
-            
+
             // Create the order
             $order = Order::create([
                 'user_id' => $userId,
@@ -86,12 +80,12 @@ class CreateOrder
                 'billing_address' => $billingAddress,
                 'shipping_address' => $shippingAddress,
             ]);
-            
+
             // Create order items
             foreach ($orderItems as $item) {
                 $order->items()->create($item);
             }
-            
+
             // Create payment intent with Stripe
             try {
                 $paymentIntent = $this->stripeService->createPaymentIntent(
@@ -99,23 +93,23 @@ class CreateOrder
                     currency: 'usd',
                     description: "Order #{$order->id}",
                     metadata: [
-                        'order_id' => $order->id
+                        'order_id' => $order->id,
                     ]
                 );
-                
+
                 // Update order with payment intent ID
                 $order->update([
                     'payment_intent_id' => $paymentIntent['id'],
                     'payment_status' => $paymentIntent['status'],
                 ]);
-                
+
                 return [
                     'order' => $order->refresh()->load('items.product'),
                     'payment' => $paymentIntent,
                 ];
             } catch (ApiErrorException $e) {
                 // Automatically rolled back by the transaction if exception occurs
-                throw new \Exception('Payment processing failed: ' . $e->getMessage());
+                throw new Exception('Payment processing failed: '.$e->getMessage());
             }
         });
     }

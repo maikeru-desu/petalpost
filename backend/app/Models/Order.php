@@ -33,7 +33,7 @@ final class Order extends Model
         'cancelled_at',
         'cancellation_reason',
     ];
-    
+
     /**
      * The attributes that should be cast.
      *

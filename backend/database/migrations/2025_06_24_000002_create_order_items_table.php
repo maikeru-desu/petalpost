@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('unit_price', 10, 2);
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();
-            
+
             // Add indexes for performance
             $table->index(['order_id', 'product_id']);
         });
